@@ -27,17 +27,57 @@ Similarly to how https://uvril.github.io/VisProject/# is done, create a series o
 #### Project Category: 
 3
 ##### Description: 
-Visualizing high-dimensional data is inherantly difficult. As the number of dimmensions increases, we get worse and worse at visualizing it. I've looked into some of the literature about it, and its pretty much an open research question. Parallel coordinates,  We could come up with some new way to visualize high-dimensional data for the project.
+Visualizing high-dimensional data is inherently difficult. As the number of dimensions increases, we get worse and worse at visualizing it. I've looked into some of the literature about it, and its pretty much an open research question. Parallel coordinates,  We could come up with some new way to visualize high-dimensional data for the project.
 
 #### Potential Data Sources: 
 It would depend on what visualization we selected
 
 
 
+### USU: A Self-Reflection Safari
+#### Project Category:
+2
 
+#### Description:
+As humans, we crave an understanding of who we really are. This makes it fascinating to see data about ourselves or about organizations we are part of. Maybe our results could inspire change at USU. The USU AAA already provides many visualizations of their data, so we'd need to do something beyond their existing work.
+
+#### Data Source:
+USU Office of Analysis, Assessment and Accreditation http://www.usu.edu/aaa/about_our_data.cfm
+
+They theoretically provide raw data but the big "Raw Data" link hasn't worked for me yet.
+
+
+
+### Early Recession Indicators
+#### Project category:
+2
+
+#### Description:
+Similar to "GDP Doesn't Tell the Whole Story". Indicators like business investment that are leading variables of business cycles are not widely known/understood and may help assuage the general confusion/fear of the population about recessions.
+
+#### Data Sources:
+Perhaps FRED https://fred.stlouisfed.org/
+
+
+
+### Teach the Girls
+#### Project category:
+1 or 2
+
+#### Description:
+Show correlations between education level of women and indicators of economic well-being. We could do one mind-blowing vis for a memorable impact.
+
+#### Data Sources:
+UN Development Programme http://hdr.undp.org/en/data has global data by gender on many interesting topics as well as economic data
 
 
 ### Margaret's Ordered Preferences 
+> "Visualization is suitable when there is a need to augment human capabilities rather than replace people with computational decision-making methods...
+>
+> Vis allows people to analyze data when they don’t know exactly what questions they need to ask in advance."
+>
+>_- Visualization Analysis and Design, Tamara Munzner_
+
 1. 
 
 ### Steve's Ordered Preferences
