@@ -5,3 +5,6 @@ Data visualization project
 Team members: 
 Steven Scott
 Margaret Watkins
+
+To view the project proposal documentation, go to docs/proposal_docs/. 
+
