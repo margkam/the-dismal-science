@@ -70,6 +70,11 @@ We will use javascript Promises to ensure that the data is loaded before we atte
 
 _[How will you display your data? Provide some general ideas that you have for the visualization design. Develop three alternative prototype designs for your visualization. Create one final design that incorporates the best of your three designs. Describe your designs and justify your choices of visual encodings. We recommend you use the [Five Design Sheet Methodology](http://fds.design/).]_
 
+### Overview
+Since we are creating a dashboard-style vis, there are multiple visualizations put together to communicate a complex message. This overview shows how the multiple views will fit together. Note that the year slider controls the year for all of the charts. This allows the user to see how different economic values are related to each other and how they evolve in tandem over time. 
+
+![Overview Vis](./docs/proposal_docs/sketches/overview.jpeg)
+
 ### Ripple Vis
 This chart is a central part of the recession visualization. The intended use is for the user to explore how recessions in one country spread/impact other countries in the world. This can be accomplished by dragging the scrubber or clicking a play button and watching the vis transition over time. Due to its central nature, several variations and views are included in this proposal. 
 
