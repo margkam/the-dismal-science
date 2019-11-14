@@ -177,3 +177,16 @@ Week 4: Dec 1 - 7:
 
 Week 5: Dec 8 - 14
 * Take finals
+
+
+# Exploratory Data Analysis: 
+_What visualizations did you use to initially look at your data? What insights did you gain? How did these insights inform your design?_
+
+# Design Evolution: 
+_What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles you learned in the course. Did you deviate from your proposal?_
+
+# Implementation: 
+_Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements._
+
+# Evaluation: 
+_What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?_
