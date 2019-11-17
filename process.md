@@ -64,6 +64,12 @@ Data on Free Trade Agreements across the world:
 - Partial global dataset http://rtais.wto.org/UI/charts.aspx#
 - Americas dataset http://www.sice.oas.org/
 
+===================================================
+Datasets currently included:
+From OECD (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
+- Quarterly National Accounts  : Quarterly Growth Rates of real GDP, change over previous quarter
+- Key Short-Term Economic Indicators  : Harmonised Unemployment Rate
+
 
 ## Data Processing
 
