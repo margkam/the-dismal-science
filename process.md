@@ -66,10 +66,18 @@ Data on Free Trade Agreements across the world:
 
 ===================================================
 Datasets currently included:
-From OECD (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
-- Quarterly National Accounts  : Quarterly Growth Rates of real GDP, change over previous quarter
-- Key Short-Term Economic Indicators  : Harmonised Unemployment Rate
 
+From OECD - Organisation for Economic Co-operation and Development
+- Quarterly National Accounts  : Quarterly Growth Rates of real GDP, change over previous quarter (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
+- Key Short-Term Economic Indicators  : Harmonised Unemployment Rate (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
+
+From FRED - Federal Reserve Bank of St. Louis
+- NBER based Recession Indicators for the United States from the Period following the Peak through the Trough (https://fred.stlouisfed.org/series/USREC)
+- 10-Year Treasury Constant Maturity Minus 3-Month Treasury Constant Maturity (https://fred.stlouisfed.org/series/T10Y3MM)
+- Gross Private Domestic Investment (https://fred.stlouisfed.org/series/GPDI) 
+
+From DESTA - Design of Free Trade Agreements
+- List of treaties in dyadic form (https://www.designoftradeagreements.org/downloads/)
 
 ## Data Processing
 
