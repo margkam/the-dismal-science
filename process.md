@@ -156,6 +156,16 @@ The volume of trade between two countries would be shown using the the weight of
     - Slider for years to show change over time
     - On hover over a link, show accompanying line chart showing volume of trade over time as net exports in real USD 
 
+- Happiness Vis:
+    - Goal is to analyze how recessions impact happiness measures such as OECD's Life Satisfaction Index
+    - Visualize if the index measures are the same before/after recessions in different countries
+    - Which countries take longer to recover?
+    - Ideas: Line chart showing happiness over time by country, bar chart showing how long it takes happiness to recover in different countries after a recession, scatterplot showing correlation (or lack thereof) between happiness and length of recession
+
+- Year Comparator Vis:
+    - Show 2 copies of map so you can compare 2 years at once
+    - Alternately, choose a base year in a single map and show data relative to that year
+
 
 ## Project Schedule
 
