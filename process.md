@@ -155,6 +155,7 @@ The volume of trade between two countries would be shown using the the weight of
     - Interactive radial dendrogram with countries as nodes and links indicating an FTA between them
     - Slider for years to show change over time
     - On hover over a link, show accompanying line chart showing volume of trade over time as net exports in real USD 
+    - This can help explain why President Trump's trade war with China is hurting the economy
 
 - Happiness Vis:
     - Goal is to analyze how recessions impact happiness measures such as OECD's Life Satisfaction Index
