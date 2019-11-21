@@ -5,7 +5,11 @@ let selectedQuarter = "Q3";
 let ripple = new Ripple();
 
 console.log('About to load data');
-d3.csv('data/Quarterly_real_GDP_growth.csv').then(data => {
+d3.csv('data/Quarterly_real_GDP_growth.csv', function(d) {
+    return {
+        countryId: d['Location'],
+    }
+}).then(data => {
     console.log('data', data);
     ripple.update(data, selectedYear, selectedQuarter);
 })
