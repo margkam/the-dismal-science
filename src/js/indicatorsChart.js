@@ -4,7 +4,21 @@ class IndicatorsChart {
             width: 900,
             height: 500,
             axisWidth: 50,
+            startDate: Date.parse("1982-1-1"),
+            endDate: Date.parse("2021-1-1"),
         }
+
+        // data to create a horizontal line at 0
+        this.zeroLine = [
+            {
+                DATE: this.config.startDate,
+                T10Y3MM: 0,
+            },
+            {
+                DATE: this.config.endDate,
+                T10Y3MM: 0,
+            }
+        ]
 
         d3.select('#indicators-chart')
             .append('button')
@@ -39,22 +53,19 @@ class IndicatorsChart {
         this.investment = investment;
 
         let timeScale = d3.scaleTime()
-            //.domain([this.recessions[0].DATE, this.recessions[this.recessions.length - 1].DATE]) // make this change dynamically?
-            .domain([Date.parse("1980-1-1"), Date.now()]) //for now, 1980 to today
+            .domain([this.config.startDate, this.config.endDate])
             .range([0, this.config.width - this.config.axisWidth])
         ;       
 
-        this.recessionTrue = this.recessions.filter(month => month.USREC == '1');
-
-        // add rectangles for recessions (this adds rectangles for every MONTH of a recession)
+        // add rectangles for recessions 
         this.svg.selectAll('rect')
-            .data(this.recessionTrue)
+            .data(this.recessions)
             .enter()
             .append('rect')
             .attr('class', 'recession')
-            .attr('x', d => timeScale(d.DATE) + this.config.axisWidth)
+            .attr('x', d => timeScale(d.START) + this.config.axisWidth)
             .attr('y', 0)
-            .attr('width', 2) // TODO: calculate a legitimate width value. In fact, filter data down even more
+            .attr('width', d => timeScale(d.END) - timeScale(d.START))
             .attr('height', this.config.height - this.config.axisWidth)
             // it would be cool for opacity to encode severity of the recession. Perhaps measure severity by length of recession?
         ;
@@ -69,12 +80,12 @@ class IndicatorsChart {
 
         //create indicator scales
         let yieldCurveScale = d3.scaleLinear()
-            .domain([-1, 5])
+            .domain([-1, 4.8])
             .range([this.config.height - this.config.axisWidth, 0])
         ;
 
         let investmentScale = d3.scaleLinear()
-            .domain([0, 5000])
+            .domain([0, 4800])
             .range([this.config.height - this.config.axisWidth, 0])
         ;
 
@@ -103,18 +114,6 @@ class IndicatorsChart {
             .x(d => timeScale(d.DATE) + this.config.axisWidth)
             .y(d => investmentScale(d.GPDI))
         ;
-
-        // data to create a horizontal line at 0
-        this.zeroLine = [
-            {
-                DATE: 0,
-                T10Y3MM: 0,
-            },
-            {
-                DATE: Date.now(),
-                T10Y3MM: 0,
-            }
-        ]
 
         this.showYieldCurve();
     }

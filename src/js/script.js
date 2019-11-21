@@ -22,13 +22,35 @@ Promise.all([
         d3.csv("data/US_yield_curve.csv"),
         d3.csv("data/US_investment.csv"),
     ]).then(datasets => {
-        let recessions = datasets[0];
+        // start each dataset at 1982 where yield curve data begins
+        let recessionsMonthly = datasets[0].slice(748); 
         let yieldCurve = datasets[1];
-        let investment = datasets[2];
+        let investment = datasets[2].slice(140);
 
-        recessions.map(entry => {
-            entry.DATE = Date.parse(entry.DATE);
-        });
+        //console.log(investment);
+        //console.log(recessions);
+        //console.log(yieldCurve);
+
+        let recessions = new Array();
+        let duration = 0;
+        let recStart = null;
+        for (let i = 0; i < recessionsMonthly.length; ++i) {
+            if (recessionsMonthly[i].USREC == "0") {
+                if (duration > 0) {
+                    recessions.push({
+                        START: recStart,
+                        END: Date.parse(recessionsMonthly[i].DATE),
+                    });
+                    duration = 0;
+                }     
+            } else {
+                ++duration;
+            }
+            
+            if (duration == 1) {
+                recStart = Date.parse(recessionsMonthly[i].DATE);
+            }
+        }
         
         yieldCurve.map(entry => {
             entry.DATE = Date.parse(entry.DATE);
@@ -41,9 +63,6 @@ Promise.all([
             entry.GPDI = +entry.GPDI;
         })
 
-        //console.log(investment);
-        //console.log(recessions);
-        //console.log(yieldCurve);
         indicatorsChart.display(recessions, yieldCurve, investment);
     })
 ;
