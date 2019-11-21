@@ -66,10 +66,18 @@ Data on Free Trade Agreements across the world:
 
 ===================================================
 Datasets currently included:
-From OECD (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
-- Quarterly National Accounts  : Quarterly Growth Rates of real GDP, change over previous quarter
-- Key Short-Term Economic Indicators  : Harmonised Unemployment Rate
 
+From OECD - Organisation for Economic Co-operation and Development
+- Quarterly National Accounts  : Quarterly Growth Rates of real GDP, change over previous quarter (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
+- Key Short-Term Economic Indicators  : Harmonised Unemployment Rate (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
+
+From FRED - Federal Reserve Bank of St. Louis
+- NBER based Recession Indicators for the United States from the Period following the Peak through the Trough (https://fred.stlouisfed.org/series/USREC)
+- 10-Year Treasury Constant Maturity Minus 3-Month Treasury Constant Maturity (https://fred.stlouisfed.org/series/T10Y3MM)
+- Gross Private Domestic Investment (https://fred.stlouisfed.org/series/GPDI) 
+
+From DESTA - Design of Free Trade Agreements
+- List of treaties in dyadic form (https://www.designoftradeagreements.org/downloads/)
 
 ## Data Processing
 
@@ -147,6 +155,17 @@ The volume of trade between two countries would be shown using the the weight of
     - Interactive radial dendrogram with countries as nodes and links indicating an FTA between them
     - Slider for years to show change over time
     - On hover over a link, show accompanying line chart showing volume of trade over time as net exports in real USD 
+    - This can help explain why President Trump's trade war with China is hurting the economy
+
+- Happiness Vis:
+    - Goal is to analyze how recessions impact happiness measures such as OECD's Life Satisfaction Index
+    - Visualize if the index measures are the same before/after recessions in different countries
+    - Which countries take longer to recover?
+    - Ideas: Line chart showing happiness over time by country, bar chart showing how long it takes happiness to recover in different countries after a recession, scatterplot showing correlation (or lack thereof) between happiness and length of recession
+
+- Year Comparator Vis:
+    - Show 2 copies of map so you can compare 2 years at once
+    - Alternately, choose a base year in a single map and show data relative to that year
 
 
 ## Project Schedule
