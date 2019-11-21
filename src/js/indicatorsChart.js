@@ -51,12 +51,12 @@ class IndicatorsChart {
             .data(this.recessionTrue)
             .enter()
             .append('rect')
+            .attr('class', 'recession')
             .attr('x', d => timeScale(d.DATE) + this.config.axisWidth)
             .attr('y', 0)
             .attr('width', 2) // TODO: calculate a legitimate width value. In fact, filter data down even more
             .attr('height', this.config.height - this.config.axisWidth)
-            .style('fill', 'red') //red for consistency across project (red indicates a recession)
-            .style('opacity', 0.2) // it would be cool for opacity to encode severity of the recession. Perhaps measure severity by length of recession?
+            // it would be cool for opacity to encode severity of the recession. Perhaps measure severity by length of recession?
         ;
 
         //create and append x axis
@@ -81,8 +81,6 @@ class IndicatorsChart {
         //append path 
         this.svg.append('path')
             .attr('id', 'indicator-curve')
-            .style('fill', 'transparent')
-            .style('stroke', 'black')
         ;
 
         //append axis element
@@ -132,9 +130,6 @@ class IndicatorsChart {
         this.svg.append('path')
             .attr('id', 'zero-line')
             .attr('d', this.yieldCurveGenerator(this.zeroLine))
-            .style('fill', 'transparent')
-            .style('stroke', 'gray')
-            .style('stroke-width', 2)
         ;
 
         // show the yield curve
