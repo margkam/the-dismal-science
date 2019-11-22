@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Recession Vis</title>
-    <link rel="stylesheet" href="styles/style.css"/>
-    <script src="libs/d3.js"></script>
-    <script src="libs/topojson.min.js"></script>
-  </head>
 
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <title>Recession Vis</title>
+  <link rel="stylesheet" href="styles/style.css" />
+  <script src="libs/d3.js"></script>
+  <script src="libs/topojson.min.js"></script>
+</head>
 
-    <h1>Visualizing the World Economy</h1>
-    <div id="ripple-chart" class="chart">
-        <svg width="1300" height="800">
-            <g id="map">            </g>
-            <g id="points"></g>
-        </svg>
+<body>
+
+  <h1>Visualizing the World Economy</h1>
+  <div id="ripple-chart" class="chart">
+    <div id="ripple-buttons">
+      <button>GDP Growth</button>
+      <button>Unemployment</button>
+      <button>Life Satisfaction</button>
+      <br/>
+      <br/>
     </div>
+    <svg width="1200" height="600">
+      <g id="map"> </g>
+      <g id="points"></g>
+    </svg>
+  </div>
 
-    <div id="year-selector" class=""></div>
+  <div id="year-selector" class=""></div>
 
-    <div id="trade-interconnectedness-chart" class="chart">
-    </div>
+  <div id="trade-interconnectedness-chart" class="chart">
+  </div>
 
-    <div id="indicators-chart" class="chart">
-      <h2>US Recession Indicators</h2>
-    </div>
-    
-    <script type="application/javascript" src="js/ripple.js"></script>
-    <script type="application/javascript" src="js/indicatorsChart.js"></script>
-    <script type="application/javascript" src="js/script.js"></script>
-  </body>
+  <div id="indicators-chart" class="chart">
+    <h2>US Recession Indicators</h2>
+  </div>
+
+  <script type="application/javascript" src="js/ripple.js"></script>
+  <script type="application/javascript" src="js/indicatorsChart.js"></script>
+  <script type="application/javascript" src="js/script.js"></script>
+</body>
+
 </html>

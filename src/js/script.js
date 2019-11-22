@@ -1,13 +1,21 @@
 console.log('Starting vis');
 
-let selectedYear = 2018;
-let selectedQuarter = "Q3";
+let selectedYear = 2009;
+let selectedQuarter = "Q4";
 let ripple = new Ripple();
 
 console.log('About to load data');
-d3.csv('data/Quarterly_real_GDP_growth.csv').then(data => {
+d3.csv('data/Quarterly_real_GDP_growth.csv', function(d) {
+    let period = d['Period'].split('-');
+    return {
+        countryId: d['LOCATION'],
+        quarter: period[0],
+        year: period[1],
+        value: d['Value']
+    }
+}).then(data => {
     console.log('data', data);
-    ripple.update(data, selectedYear, selectedQuarter);
+    ripple.updateMap(data, selectedYear, selectedQuarter);
 })
 
 d3.json("data/world.json")
