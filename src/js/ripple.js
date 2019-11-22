@@ -15,54 +15,59 @@ class Ripple {
             .scale(this.config.scale)
             //.translate([this.config.padding.left, this.config.padding.top])
             ;
+
+        this.positiveColorScale = d3.scaleLinear().domain([0.0, 4.0])
+            .range(['white', 'green'])
+        this.negativeColorScale = d3.scaleLinear().domain([-4.0, 0.0])
+            .range(['red', 'white'])
     }
 
     update(data, year, quarter) {
         console.log('Ripple chart updating with data ', data, ' year ', year, ' quarter ', quarter);
     }
 
-    updateMap(worldcupData) {
-        //Clear any previous selections;
-        this.clearMap();
+    getColor(value) {
+        if(value < 0) {
+            return this.negativeColorScale(value);
+        } else {
+            return this.positiveColorScale(value);
+        }
+    }
+
+    getValue(data, id, year, quarter) {
+        let countryMatch = data.filter(d => {
+            return d.countryId == id;
+        });
+        let yearMatch = countryMatch.filter(d => {
+            return d.year == year;
+        });
+        let quarterMatch = yearMatch.filter(d => {
+            return d.quarter = quarter;
+        })
+        if(undefined == quarterMatch ||
+            undefined == quarterMatch[0] ||
+            undefined == quarterMatch[0].value) {
+            return 0;
+        }
+        // console.log('match found: ', quarterMatch[0].value);
+        return quarterMatch[0].value;
+    }
+
+    updateMap(data, year, quarter) {
+        console.log('Ripple chart updating with data ', data, ' year ', year, ' quarter ', quarter);
 
         let map = d3.select("#map");
 
+        let oneAustralia = this.getValue(data, 'AUS', year, quarter);
+        console.log('one australia', oneAustralia);
+
         map.selectAll(".countries")
-            .attr("class", function (d) {
-                let countryClass = "countries";
-                // if the country was the host, set its class to host
-                if (d.id == worldcupData.host_country_code) {
-                    countryClass = "countries host"
-                }
-                // if the country's id is in the teams list, set its class to team
-                else if (worldcupData.teams_iso.includes(d.id)) {
-                    countryClass = "countries team"
-                }
-                return countryClass;
-            });
-
-
-        // We strongly suggest using CSS classes to style the selected countries.
-
-        // Add a marker for gold/silver medalists
-        // display a gold circle on the winner
-        let winner = this.projection(worldcupData.win_pos);
-        map.append('circle')
-            .attr('r', 12)
-            .attr('cx', winner[0])
-            .attr('cy', winner[1])
-            .attr('class', 'gold')
-            .attr('id', 'selected-winner')
-            ;
-
-        // display a silver circle for the runner-up
-        let second = this.projection(worldcupData.ru_pos);
-        map.append('circle')
-            .attr('r', 12)
-            .attr('cx', second[0])
-            .attr('cy', second[1])
-            .attr('class', 'silver')
-            .attr('id', 'selected-second')
+            .style('fill', (d) => {
+                if(undefined == d) { return 'white'; }
+                return this.getColor(
+                    this.getValue(data, d.id, year, quarter)
+                );
+            })
             ;
     }
 
@@ -91,6 +96,8 @@ class Ripple {
             .attr('id', (d) => d.id)
             .attr('class', 'countries')
             .style('fill', 'rgb(211,211,211)')
+            .style('stroke-width', 0.3)
+            .style('stroke', 'black')
             ;
     }
 }
