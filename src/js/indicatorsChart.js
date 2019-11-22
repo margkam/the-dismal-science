@@ -78,6 +78,15 @@ class IndicatorsChart {
             .call(xAxis)
         ;
 
+        //append a rect as a vertical line marking today
+        this.svg.append('rect')
+            .attr('id', 'today-line')
+            .attr('x', timeScale(Date.now()) + this.config.axisWidth)
+            .attr('y', 0)
+            .attr('width', 1)
+            .attr('height', this.config.height - this.config.axisWidth)
+        ;
+
         //create indicator scales
         let yieldCurveScale = d3.scaleLinear()
             .domain([-1, 4.8])

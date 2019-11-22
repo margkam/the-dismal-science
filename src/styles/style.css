@@ -13,6 +13,11 @@ button {
     stroke-width: 2;
 }
 
+#today-line {
+    fill: blue;
+    stroke-width: 0;
+}
+
 .recession {
     fill: red;
     opacity: 0.2;
