@@ -4,7 +4,6 @@ let selectedYear = 2009;
 let selectedQuarter = "Q4";
 let ripple = new Ripple();
 
-console.log('About to load data');
 d3.csv('data/Quarterly_real_GDP_growth.csv', function(d) {
     let period = d['Period'].split('-');
     return {
@@ -12,16 +11,48 @@ d3.csv('data/Quarterly_real_GDP_growth.csv', function(d) {
         quarter: period[0],
         year: period[1],
         value: d['Value']
-    }
+    };
 }).then(data => {
     console.log('data', data);
+    d3.select('#ripple-gdp')
+      .on('click', () => {
+        ripple.updateMap(data, selectedYear, selectedQuarter);
+      })
+      ;
     ripple.updateMap(data, selectedYear, selectedQuarter);
 })
+
+d3.csv('data/Harmonised_unemployment_rate.csv', function(d) {
+    let period = d['TIME'].split('-');
+    return {
+        countryId: d['LOCATION'],
+        month: period[1],
+        year: period[0],
+        value: d['Value']
+    };
+}).then(data => {
+    console.log('unemployment data', data);
+    d3.select('#ripple-unemployment')
+      .on('click', () => {
+        ripple.updateMap(data, selectedYear, selectedQuarter);
+      })
+      ;
+})
+
+var img = document.createElement("img");
+img.width = 600;
+img.height = 600;
+img.src = "resources/Trade_Interconnectedness.png";
+
+var src = document.getElementById("placeholder");
+src.appendChild(img);
+
 
 d3.json("data/world.json")
 .then(function(world) {
   ripple.drawMap(world);
 });
+
 let indicatorsChart = new IndicatorsChart();
 
 //Load datasets and pass to indicatorsChart
