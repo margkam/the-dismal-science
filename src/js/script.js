@@ -71,7 +71,7 @@ Promise.all([
         //console.log(investment);
         //console.log(recessions);
         //console.log(yieldCurve);
-        console.log(unemployment);
+        //console.log(unemployment);
 
         let recessions = new Array();
         let duration = 0;
@@ -102,7 +102,7 @@ Promise.all([
 
         investment.map(entry => {
             entry.DATE = Date.parse(entry.DATE);
-            entry.GPDI = +entry.GPDI;
+            entry.GPDI = +entry.GPDI/1000;
         })
 
         unemployment.map(entry => {

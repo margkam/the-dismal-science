@@ -102,6 +102,14 @@ class IndicatorsChart {
             .call(xAxis)
         ;
 
+        //append x axis label
+        this.svg.append('text')
+            .html('Year')
+            .attr('class', 'axis-label')
+            .attr('x', (this.config.width - this.config.axisWidth)/2 + this.config.axisWidth)
+            .attr('y', this.config.height - 15)
+        ;
+
         //create indicator scales
         let yieldCurveScale = d3.scaleLinear()
             .domain([-1.5, 5.1])
@@ -109,7 +117,7 @@ class IndicatorsChart {
         ;
 
         let investmentScale = d3.scaleLinear()
-            .domain([0, 4800])
+            .domain([0, 4.8])
             .range([this.config.height - this.config.axisWidth, 0])
         ;
 
@@ -123,10 +131,21 @@ class IndicatorsChart {
         this.investmentAxis = d3.axisLeft(investmentScale);
         this.unemploymentAxis = d3.axisLeft(unemploymentScale);
 
-        //append axis element
+        //append y axis element
         this.svg.append('g')
             .attr('id', 'y-axis')
             .attr('transform', `translate(${this.config.axisWidth},0)`)
+        ;
+
+        //append y axis label element
+        let x = 15;
+        let y = (this.config.height - this.config.axisWidth)/2;
+        this.svg.append('text')
+            .attr('id', 'y-axis-label')
+            .attr('class', 'axis-label')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('transform', `rotate(270 ${x} ${y})`)
         ;
 
         //append path 
@@ -190,6 +209,10 @@ class IndicatorsChart {
             .call(this.yieldCurveAxis)
         ;
 
+        d3.select('#y-axis-label')
+            .html('10 Year Minus 3 Month Treasury Constant Maturity (%)')
+        ;
+
         this.yieldCurveShowing = true;
     }
 
@@ -209,6 +232,10 @@ class IndicatorsChart {
             .call(this.investmentAxis)
         ;
 
+        d3.select('#y-axis-label')
+            .html('Gross Private Domestic Investment (USD, Trillions)')
+        ;
+
         this.yieldCurveShowing = false;
     }
 
@@ -226,6 +253,10 @@ class IndicatorsChart {
         // add the correct axis
         d3.select('#y-axis')
             .call(this.unemploymentAxis)
+        ;
+
+        d3.select('#y-axis-label')
+            .html('Unemployment Rate (%)')
         ;
 
         this.yieldCurveShowing = false;

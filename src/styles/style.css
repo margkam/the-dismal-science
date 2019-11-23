@@ -11,6 +11,11 @@ button {
     stroke: black;
 }
 
+.axis-label {
+    font-size: 12px;
+    text-anchor: middle;
+}
+
 .recession {
     fill: red;
     opacity: 0.2;
