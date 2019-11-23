@@ -80,14 +80,6 @@ class IndicatorsChart {
             // it would be cool for opacity to encode severity of the recession. Perhaps measure severity by length of recession?
         ;
 
-        //create and append x axis
-        let xAxis = d3.axisBottom(timeScale);
-        this.svg.append('g')
-            .attr('id', 'x-axis')
-            .attr('transform', `translate(${this.config.axisWidth}, ${this.config.height - this.config.axisWidth})`)
-            .call(xAxis)
-        ;
-
         //append a rect as a vertical line marking today
         this.svg.append('rect')
             .attr('id', 'today-line')
@@ -96,10 +88,23 @@ class IndicatorsChart {
             .attr('width', 1)
             .attr('height', this.config.height - this.config.axisWidth)
         ;
+        
+        this.addEventLabel("1990 Recession", timeScale(this.recessions[1].START), null);
+        this.addEventLabel("Dot-Com Bust", timeScale(this.recessions[2].START), null);
+        this.addEventLabel("The Great Recession", timeScale(this.recessions[3].START), null);
+        this.addEventLabel("TODAY", timeScale(Date.now()), "today-label");
+
+        //create and append x axis
+        let xAxis = d3.axisBottom(timeScale);
+        this.svg.append('g')
+            .attr('id', 'x-axis')
+            .attr('transform', `translate(${this.config.axisWidth}, ${this.config.height - this.config.axisWidth})`)
+            .call(xAxis)
+        ;
 
         //create indicator scales
         let yieldCurveScale = d3.scaleLinear()
-            .domain([-1, 4.8])
+            .domain([-1.5, 5.1])
             .range([this.config.height - this.config.axisWidth, 0])
         ;
 
@@ -146,6 +151,22 @@ class IndicatorsChart {
         ;
 
         this.showYieldCurve();
+    }
+
+    addEventLabel(name, scaledDate, id) {
+        let x = scaledDate + this.config.axisWidth - 5;
+        let y = 10;
+        let text = this.svg.append('text')
+            .html(name)
+            .attr('class', 'event-label')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('transform', `rotate(270 ${x} ${y})`)
+        ;
+
+        if (id != null) {
+            text.attr('id', id);
+        }
     }
 
     showYieldCurve() {

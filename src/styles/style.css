@@ -1,3 +1,7 @@
+body {
+    font-family: "Tahoma", Geneva, sans-serif;
+}
+
 button {
     margin: 5px;
 }
@@ -7,10 +11,20 @@ button {
     stroke: black;
 }
 
-#zero-line {
-    fill: transparent;
-    stroke: black;
-    stroke-width: 1;
+.recession {
+    fill: red;
+    opacity: 0.2;
+}
+
+.event-label {
+    text-anchor: end;
+    fill: red;
+    opacity: 0.5;
+}
+
+#today-label {
+    fill: blue;
+    opacity: 1;
 }
 
 #today-line {
@@ -18,8 +32,9 @@ button {
     stroke-width: 0;
 }
 
-.recession {
-    fill: red;
-    opacity: 0.2;
+#zero-line {
+    fill: transparent;
+    stroke: black;
+    stroke-width: 1;
 }
 
