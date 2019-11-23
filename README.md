@@ -1,10 +1,12 @@
-The Dismal Science:
-CS5890 Fall 2019
-Data visualization project
+# Confessions of a Recessed Economy
 
-Team members: 
-Steven Scott
-Margaret Watkins
+### CS5890 Data Visualization Project (Fall 2019)
 
-To view the project proposal documentation, go to docs/proposal_docs/. 
+_Team:_  
+The Dismal Science  
+_Members:_  
+Steven Scott  
+Margaret Watkins  
 
+
+_Enjoy the vis at https://marwtki.github.io/the-dismal-science/_
