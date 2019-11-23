@@ -9,8 +9,8 @@ button {
 
 #zero-line {
     fill: transparent;
-    stroke: gray;
-    stroke-width: 2;
+    stroke: black;
+    stroke-width: 1;
 }
 
 #today-line {

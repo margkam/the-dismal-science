@@ -60,15 +60,18 @@ Promise.all([
         d3.csv("src/data/US_recessions.csv"),
         d3.csv("src/data/US_yield_curve.csv"),
         d3.csv("src/data/US_investment.csv"),
+        d3.csv("src/data/US_unemployment.csv"),
     ]).then(datasets => {
         // start each dataset at 1982 where yield curve data begins
         let recessionsMonthly = datasets[0].slice(748); 
         let yieldCurve = datasets[1];
         let investment = datasets[2].slice(140);
+        let unemployment = datasets[3];
 
         //console.log(investment);
         //console.log(recessions);
         //console.log(yieldCurve);
+        console.log(unemployment);
 
         let recessions = new Array();
         let duration = 0;
@@ -102,6 +105,11 @@ Promise.all([
             entry.GPDI = +entry.GPDI;
         })
 
-        indicatorsChart.display(recessions, yieldCurve, investment);
+        unemployment.map(entry => {
+            entry.DATE = Date.parse(entry.DATE);
+            entry.UNRATE = +entry.UNRATE;
+        })
+
+        indicatorsChart.display(recessions, yieldCurve, investment, unemployment);
     })
 ;
