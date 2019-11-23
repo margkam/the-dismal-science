@@ -4,7 +4,7 @@ let selectedYear = 2009;
 let selectedQuarter = "Q4";
 let ripple = new Ripple();
 
-d3.csv('data/Quarterly_real_GDP_growth.csv', function(d) {
+d3.csv('src/data/Quarterly_real_GDP_growth.csv', function(d) {
     let period = d['Period'].split('-');
     return {
         countryId: d['LOCATION'],
@@ -22,7 +22,7 @@ d3.csv('data/Quarterly_real_GDP_growth.csv', function(d) {
     ripple.updateMap(data, selectedYear, selectedQuarter);
 })
 
-d3.csv('data/Harmonised_unemployment_rate.csv', function(d) {
+d3.csv('src/data/Harmonised_unemployment_rate.csv', function(d) {
     let period = d['TIME'].split('-');
     return {
         countryId: d['LOCATION'],
@@ -42,13 +42,13 @@ d3.csv('data/Harmonised_unemployment_rate.csv', function(d) {
 var img = document.createElement("img");
 img.width = 600;
 img.height = 600;
-img.src = "resources/Trade_Interconnectedness.png";
+img.src = "src/resources/Trade_Interconnectedness.png";
 
 var src = document.getElementById("placeholder");
 src.appendChild(img);
 
 
-d3.json("data/world.json")
+d3.json("src/data/world.json")
 .then(function(world) {
   ripple.drawMap(world);
 });
@@ -57,9 +57,9 @@ let indicatorsChart = new IndicatorsChart();
 
 //Load datasets and pass to indicatorsChart
 Promise.all([
-        d3.csv("data/US_recessions.csv"),
-        d3.csv("data/US_yield_curve.csv"),
-        d3.csv("data/US_investment.csv"),
+        d3.csv("src/data/US_recessions.csv"),
+        d3.csv("src/data/US_yield_curve.csv"),
+        d3.csv("src/data/US_investment.csv"),
     ]).then(datasets => {
         // start each dataset at 1982 where yield curve data begins
         let recessionsMonthly = datasets[0].slice(748); 
