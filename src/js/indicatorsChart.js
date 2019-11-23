@@ -20,7 +20,7 @@ class IndicatorsChart {
             }
         ]
 
-        d3.select('#indicators-chart')
+        d3.select('#indicators-buttons')
             .append('button')
             .attr('id', 'yield-curve-button')
             .html('Yield Curve')
@@ -29,7 +29,7 @@ class IndicatorsChart {
             })
         ;
 
-        d3.select('#indicators-chart')
+        d3.select('#indicators-buttons')
             .append('button')
             .attr('id', 'investment-button')
             .html('Business Investment')
