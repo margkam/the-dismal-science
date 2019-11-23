@@ -46,46 +46,32 @@ Benefits:
 
 ## Data
 
-Economic data is widely available from institutions such as the World Trade Organization, World Bank, and OECD. This data is free online, usually downloadable as a csv.
-
-Planned data source:  
-Organization for Economic Cooperation and Development:  
-https://data.oecd.org/economy.htm  
-https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE for quarterly data
-
-If needed, other potential resources for data for our must-have vis include:
-- World Bank: https://data.worldbank.org/
-- US Government Data: https://catalog.data.gov/dataset/international-macroeconomic-data-set
-- DataHub: several collections of data from the International Monetary Fund, World Bank, etc: https://datahub.io/collections/economic-data 
-
-Data on Free Trade Agreements across the world:
-- Conglomerate dataset that lacks country names https://aric.adb.org/database/fta
-- Asia dataset https://aric.adb.org/database/fta
-- Partial global dataset http://rtais.wto.org/UI/charts.aspx#
-- Americas dataset http://www.sice.oas.org/
-
-===================================================
 Datasets currently included:
 
-From OECD - Organisation for Economic Co-operation and Development
+#### From OECD - Organisation for Economic Co-operation and Development
 - Quarterly National Accounts  : Quarterly Growth Rates of real GDP, change over previous quarter (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
 - Key Short-Term Economic Indicators  : Harmonised Unemployment Rate (https://stats.oecd.org/Index.aspx?DataSetCode=QNA_ARCHIVE#)
 
-From FRED - Federal Reserve Bank of St. Louis
+#### From FRED - Federal Reserve Bank of St. Louis
 - NBER based Recession Indicators for the United States from the Period following the Peak through the Trough (https://fred.stlouisfed.org/series/USREC)
 - 10-Year Treasury Constant Maturity Minus 3-Month Treasury Constant Maturity (https://fred.stlouisfed.org/series/T10Y3MM)
 - Gross Private Domestic Investment (https://fred.stlouisfed.org/series/GPDI) 
+- Unemployment Rate (https://fred.stlouisfed.org/series/UNRATE)
 
-From DESTA - Design of Free Trade Agreements
+#### From DESTA - Design of Free Trade Agreements
 - List of treaties in dyadic form (https://www.designoftradeagreements.org/downloads/)
 
-## Data Processing
+### Data Processing
 
-For most of our visualizations, we expect to be able to use CSV's from online without needing to process the data or derive additional quantities. We will use javascript Promises to ensure that the data is loaded before we attempt to create the visualization. D3's default CSV parser will be used.
+All of these datasets were downloadable in CSV format. For most of them, we used D3's CSV parser, and minimal additional data processing was needed. The US recession dataset contained a flag for every month indicating if it was a recession or not; this was converted into a much smallr dataset in which each item is a recession (with start and end dates) intead of a month.
 
-Our optional vis on the effects of free trade agreements on trade volume would require data processing, as we have not yet found one single source of the data we seek. We would load several different datasets using D3 and parse out specific fields from each that we want and then combine them into a single data structure. 
+We have also included a dyadic dataset of bi- and multilateral free trade agreements for our optional dendrogram. The src/resources directory contains a python script we wrote to parse the CSV and construct a JSON hierarchy of regions and countries of the world using the identifiers in this dataset. This tree structure in JSON format will enable us to use hierarchical edge bundling with a radial dendrogram. The JSON file we generated is in the src/data directory. 
 
-## Visualization Design
+## Exploratory Data Analysis: 
+
+Initially we tolerated some online vis provided by our data sources to understand the data. Having also studied economics for some time, we had a decent idea that the yield curve would invert and business investment would decline before each recession, and that these have occured this year as well. We were interested to see that unemployment, which typically begins to rise before a recession, is currently still dropping. This contrasts to the other two indicators in the vis and for the sake of showing the data, the whole data, and nothing but the data, we decided it would add interest and accuracy to the vis to include unemployment as well. We expect that the global datasets will provide more surprises as we continue to explore the data through the map and slider vis we are building.
+
+## Design Evolution
 
 ### Overview
 Since we are creating a dashboard-style vis, there are multiple visualizations put together to communicate a complex message. This overview shows how the multiple views will fit together. Note that the year slider controls the year for all of the charts. This allows the user to see how different economic values are related to each other and how they evolve in tandem over time. 
@@ -168,7 +154,7 @@ The volume of trade between two countries would be shown using the the weight of
     - Alternately, choose a base year in a single map and show data relative to that year
 
 
-## Project Schedule
+## Updated Project Schedule
 
 Week 0: Nov 3 - 9:
 * Meet with Dr. Edwards to discuss proposal 
@@ -176,7 +162,7 @@ Week 0: Nov 3 - 9:
 * Write Proposal
   - Write this document
   - Draw layouts, rough sketches of vis
-* _Optional: Implement layout structure in html_
+* Implement layout structure in html
 
 Week 1: Nov 10 - 16:
 * Turn in Proposal (Monday)
@@ -184,34 +170,44 @@ Week 1: Nov 10 - 16:
 * Implement Business Investment Line Chart (Margaret)
 
 Week 2: Nov 17 - 23:
-* Implement Yield Curve Inversion Chart (Steve)
-* Implement Unemployment Chart (Margaret)
+* Put the datasets in (Margaret)
+* Implement Yield Curve Inversion Chart (Margaret)
+* Implement Unemployment Chart (Steve)
 * Add scaled colors for GDP growth rate to World Map (Steve)
-* Attempt Unemployment Ripple Chart (Margaret)
+* Attempt Unemployment Ripple Chart (Steve)
+* Write script to create countries hierarchy for dendrogram (Margaret)
 
 Week 3: Nov 24 - 30:
+* Attempt to find more robust life satisfaction dataset and add to map (team)
+* Implement year slider (Steve)
+* Implement play button (Steve)
+* Look into map projection solutions (different projection? Cartogram?) (team)
+* Add question icons and basic descriptions of economic concepts (Margaret)
+* Add tooltip to indicators chart and maybe highlighting (Margaret)
 * Attempt FTA dendrogram for current year (team effort)
 * Attempt dendrogram change over time (Margaret)
 * Attempt linked FTA trade volume vis (Steve)
 * Write report (team)
-* Finalize project, fix outstanding bugs, code clean up (team)
 
 Week 4: Dec 1 - 7:
+* Style project to be beautiful with css (team)
+* Finalize project, fix outstanding bugs, code clean up (team)
 * Prep for Presentation
 * Present
+* Make screencast
+* Finish process.md
 
 Week 5: Dec 8 - 14
 * Take finals
 
 
-# Exploratory Data Analysis: 
-_What visualizations did you use to initially look at your data? What insights did you gain? How did these insights inform your design?_
+TODO:
 
-# Design Evolution: 
+Design Evolution: 
 _What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles you learned in the course. Did you deviate from your proposal?_
 
-# Implementation: 
+Implementation: 
 _Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements._
 
-# Evaluation: 
+Evaluation: 
 _What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?_
