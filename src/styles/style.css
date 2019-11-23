@@ -2,6 +2,10 @@ body {
     font-family: "Tahoma", Geneva, sans-serif;
 }
 
+.h2-tagline {
+    font-style: italic;
+}
+
 button {
     margin: 10px;
     background-color: white;
