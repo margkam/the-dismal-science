@@ -193,6 +193,16 @@ class IndicatorsChart {
             return; // to avoid appending multiple zero-lines.
         }
 
+        //highlight correct button
+        d3.select('#indicators-buttons')
+            .selectAll('button')
+            .classed('selected', false)
+        ;
+
+        d3.select('#yield-curve-button')
+            .classed('selected', true)
+        ;
+
         // append the zero line
         this.svg.append('path')
             .attr('id', 'zero-line')
@@ -217,6 +227,16 @@ class IndicatorsChart {
     }
 
     showInvestment() {
+        //highlight correct button
+        d3.select('#indicators-buttons')
+            .selectAll('button')
+            .classed('selected', false)
+        ;
+
+        d3.select('#investment-button')
+            .classed('selected', true)
+        ;
+
         // remove the zero line if there
         d3.select('#zero-line')
             .remove()
@@ -240,6 +260,16 @@ class IndicatorsChart {
     }
 
     showUnemployment() {
+        //highlight correct button
+        d3.select('#indicators-buttons')
+            .selectAll('button')
+            .classed('selected', false)
+        ;
+
+        d3.select('#unemployment-button')
+            .classed('selected', true)
+        ;
+
         // remove the zero line if there
         d3.select('#zero-line')
             .remove()
