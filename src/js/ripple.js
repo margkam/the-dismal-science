@@ -22,10 +22,11 @@ class Ripple {
             .range(['red', 'white'])
     }
 
-    display(gdpGrowthData, unemploymentData) {
+    // initialize the vis, passing in the data that will be used in different modes
+    init(gdpGrowthData, unemploymentData) {
         this.gdpGrowthData = gdpGrowthData;
         this.unemploymentData = unemploymentData;
-        ripple.updateMap(gdpGrowthData, selectedYear, selectedQuarter);
+        // ripple.updateMap(gdpGrowthData, selectedYear, selectedQuarter);
         d3.select('#ripple-gdp')
             .on('click', () => {
                 ripple.updateMap(this.gdpGrowthData, selectedYear, selectedQuarter);
@@ -38,11 +39,13 @@ class Ripple {
             ;
     }
 
+    // as a subscriber of the time slider, the ripple needs to have an update method
     update(year) {
-        console.log('Ripple chart updating with data ', this.data, ' year ', year.getFullYear());
-        // this.updateMap(this.data, year, 'Q1');
+        console.log('Ripple chart updating with data ', this.gdpGrowthData, ' year ', year);
+        this.updateMap(this.gdpGrowthData, year, 'Q1');
     }
 
+    // get the color corresponding to a target value
     getColor(value) {
         if (value < 0) {
             return this.negativeColorScale(value);
@@ -51,6 +54,7 @@ class Ripple {
         }
     }
 
+    // find the target value in the data
     getValue(data, id, year, quarter) {
         let countryMatch = data.filter(d => {
             return d.countryId == id;
@@ -70,6 +74,7 @@ class Ripple {
         return quarterMatch[0].value;
     }
 
+    // color the map according to the {year} and {quarter} within the dataset {data}
     updateMap(data, year, quarter) {
         console.log('Ripple chart updating with data ', data, ' year ', year, ' quarter ', quarter);
 

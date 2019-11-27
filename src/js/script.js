@@ -34,6 +34,7 @@ ripplePromises.push(d3.csv('src/data/Harmonised_unemployment_rate.csv', function
     };
 }))
 
+// load all datasets for the ripple chart
 Promise.all(ripplePromises).then(datasets => {
     timeSlider.init();
     timeSlider.addSubscriber(ripple);
@@ -41,22 +42,7 @@ Promise.all(ripplePromises).then(datasets => {
     let gdpGrowth = datasets[0];
     let unemployment = datasets[1];
 
-    /*
-    console.log('gdpGrowth', gdpGrowth);
-    console.log('unemployment', unemployment);
-
-    d3.select('#ripple-gdp')
-      .on('click', () => {
-        ripple.updateMap(gdpGrowth, selectedYear, selectedQuarter);
-      })
-      ;
-    d3.select('#ripple-unemployment')
-      .on('click', () => {
-        ripple.updateMap(unemployment, selectedYear, selectedQuarter);
-      })
-      ;
-      */
-      ripple.display(gdpGrowth, unemployment);
+    ripple.init(gdpGrowth, unemployment);
 })
 
 var img = document.createElement("img");

@@ -11,6 +11,13 @@ class TimeSlider {
         this.subscribers.push(subscriber);
     }
 
+    updateSubscribers(year) {
+        console.log('this.subscribers', this.subscribers);
+        this.subscribers.forEach((subscriber) => {
+            subscriber.update(year);
+        })
+    }
+
     init() {
         // Time
         let dataTime = d3.range(0, 40).map(function (d) {
@@ -24,9 +31,16 @@ class TimeSlider {
             .attr('type', 'range')
             .attr('min', this.yearRange.min)
             .attr('max', this.yearRange.max)
-            .classed('slider', true)
+            .attr('list', 'tickmarks')
+            .attr('id', 'time-slider-id')
             .attr('step', 1)
+            .classed('slider', true)
             .style('width', "83%")
+            .on('change', (event) => { 
+                let year = document.getElementById('time-slider-id').value;
+                console.log('change', year); 
+                this.updateSubscribers(year);
+            })
             ;
 
         let ticks = d3.select('#year-selector')
