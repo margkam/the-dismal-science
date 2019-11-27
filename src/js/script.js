@@ -2,9 +2,19 @@ console.log('Starting vis');
 
 let selectedYear = 2009;
 let selectedQuarter = "Q4";
-let ripple = new Ripple();
 
-d3.csv('src/data/Quarterly_real_GDP_growth.csv', function(d) {
+let ripple = new Ripple();
+let timeSlider = new TimeSlider();
+let indicatorsChart = new IndicatorsChart();
+
+let ripplePromises = [];
+
+d3.json("src/data/world.json")
+.then(function(world) {
+  ripple.drawMap(world);
+});
+
+ripplePromises.push(d3.csv('src/data/Quarterly_real_GDP_growth.csv', function(d) {
     let period = d['Period'].split('-');
     return {
         countryId: d['LOCATION'],
@@ -12,17 +22,9 @@ d3.csv('src/data/Quarterly_real_GDP_growth.csv', function(d) {
         year: period[1],
         value: d['Value']
     };
-}).then(data => {
-    console.log('data', data);
-    d3.select('#ripple-gdp')
-      .on('click', () => {
-        ripple.updateMap(data, selectedYear, selectedQuarter);
-      })
-      ;
-    ripple.updateMap(data, selectedYear, selectedQuarter);
-})
+}))
 
-d3.csv('src/data/Harmonised_unemployment_rate.csv', function(d) {
+ripplePromises.push(d3.csv('src/data/Harmonised_unemployment_rate.csv', function(d) {
     let period = d['TIME'].split('-');
     return {
         countryId: d['LOCATION'],
@@ -30,13 +32,31 @@ d3.csv('src/data/Harmonised_unemployment_rate.csv', function(d) {
         year: period[0],
         value: d['Value']
     };
-}).then(data => {
-    console.log('unemployment data', data);
-    d3.select('#ripple-unemployment')
+}))
+
+Promise.all(ripplePromises).then(datasets => {
+    timeSlider.init();
+    timeSlider.addSubscriber(ripple);
+
+    let gdpGrowth = datasets[0];
+    let unemployment = datasets[1];
+
+    /*
+    console.log('gdpGrowth', gdpGrowth);
+    console.log('unemployment', unemployment);
+
+    d3.select('#ripple-gdp')
       .on('click', () => {
-        ripple.updateMap(data, selectedYear, selectedQuarter);
+        ripple.updateMap(gdpGrowth, selectedYear, selectedQuarter);
       })
       ;
+    d3.select('#ripple-unemployment')
+      .on('click', () => {
+        ripple.updateMap(unemployment, selectedYear, selectedQuarter);
+      })
+      ;
+      */
+      ripple.display(gdpGrowth, unemployment);
 })
 
 var img = document.createElement("img");
@@ -46,14 +66,6 @@ img.src = "src/resources/Trade_Interconnectedness.png";
 
 var src = document.getElementById("placeholder");
 src.appendChild(img);
-
-
-d3.json("src/data/world.json")
-.then(function(world) {
-  ripple.drawMap(world);
-});
-
-let indicatorsChart = new IndicatorsChart();
 
 //Load datasets and pass to indicatorsChart
 Promise.all([

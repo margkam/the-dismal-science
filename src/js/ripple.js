@@ -22,12 +22,29 @@ class Ripple {
             .range(['red', 'white'])
     }
 
-    update(data, year, quarter) {
-        console.log('Ripple chart updating with data ', data, ' year ', year, ' quarter ', quarter);
+    display(gdpGrowthData, unemploymentData) {
+        this.gdpGrowthData = gdpGrowthData;
+        this.unemploymentData = unemploymentData;
+        ripple.updateMap(gdpGrowthData, selectedYear, selectedQuarter);
+        d3.select('#ripple-gdp')
+            .on('click', () => {
+                ripple.updateMap(this.gdpGrowthData, selectedYear, selectedQuarter);
+            })
+            ;
+        d3.select('#ripple-unemployment')
+            .on('click', () => {
+                ripple.updateMap(this.unemploymentData, selectedYear, selectedQuarter);
+            })
+            ;
+    }
+
+    update(year) {
+        console.log('Ripple chart updating with data ', this.data, ' year ', year.getFullYear());
+        // this.updateMap(this.data, year, 'Q1');
     }
 
     getColor(value) {
-        if(value < 0) {
+        if (value < 0) {
             return this.negativeColorScale(value);
         } else {
             return this.positiveColorScale(value);
@@ -44,7 +61,7 @@ class Ripple {
         let quarterMatch = yearMatch.filter(d => {
             return d.quarter = quarter;
         })
-        if(undefined == quarterMatch ||
+        if (undefined == quarterMatch ||
             undefined == quarterMatch[0] ||
             undefined == quarterMatch[0].value) {
             return 0;
@@ -63,7 +80,7 @@ class Ripple {
 
         map.selectAll(".countries")
             .style('fill', (d) => {
-                if(undefined == d) { return 'white'; }
+                if (undefined == d) { return 'white'; }
                 return this.getColor(
                     this.getValue(data, d.id, year, quarter)
                 );
