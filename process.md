@@ -200,11 +200,16 @@ Week 4: Dec 1 - 7:
 Week 5: Dec 8 - 14
 * Take finals
 
+## Insights and Mishaps
+_Section for Tales of Adventure while implementing the vis_
+### Sliders: Potentially problematic
+The year slider was suprisingly fraught with pitfalls. 
 
 TODO:
 
 Design Evolution: 
 _What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles you learned in the course. Did you deviate from your proposal?_
+We considering switching the world map to be a cartogram, with country size scaled by GDP and colored by GDP Growth. The advantage of this switch would have been that countries with more of an impact on the global economy would have been emphasized in the vis. However, when we explored this option by looking at http://bl.ocks.org/emeeks/d57083a45e60a64fe976, it became apparent that the distortion would create several problems. European countries become unrecognizable as they grow. Given our dataset, Africa would have disappeared entirely. 
 
 Implementation: 
 _Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements._

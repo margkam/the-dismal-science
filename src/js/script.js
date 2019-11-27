@@ -1,8 +1,5 @@
 console.log('Starting vis');
 
-let selectedYear = 2009;
-let selectedQuarter = "Q4";
-
 let ripple = new Ripple();
 let timeSlider = new TimeSlider();
 let indicatorsChart = new IndicatorsChart();
