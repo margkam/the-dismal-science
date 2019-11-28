@@ -102,6 +102,7 @@ class Ripple {
 
     // get the color corresponding to a target value
     getColor(value) {
+        if(undefined == value) { return 'lightgrey'; }
         if (value < 0) {
             return this.negativeColorScale(value);
         } else {
@@ -131,7 +132,7 @@ class Ripple {
         if (undefined == targetValue ||
             undefined == targetValue[0] ||
             undefined == targetValue[0].value) {
-            return 0;
+            return undefined;
         }
         return targetValue[0].value;
     }
@@ -143,7 +144,7 @@ class Ripple {
 
         map.selectAll(".countries")
             .style('fill', (d) => {
-                if (undefined == d) { return 'white'; }
+                if (undefined == d) { return 'grey'; }
                 return this.getColor(
                     this.getValue(this.selectedData, d.id, this.selectedYear, this.selectedMonth)
                 );
