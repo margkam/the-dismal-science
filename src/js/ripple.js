@@ -13,21 +13,21 @@ class Ripple {
         }
         this.projection = d3.geoEquirectangular()
             .scale(this.config.scale)
-            //.translate([this.config.padding.left, this.config.padding.top])
             ;
-
-        this.posGdpScale = d3.scaleLinear().domain([0.0, 4.0])
-            .range(['white', 'green']);
-        this.negativeColorScale = d3.scaleLinear().domain([-4.0, 0.0])
-            .range(['red', 'white']);
-
-        this.unemploymentColorScale = d3.scaleLinear().domain([0.0, 20.0])
-            .range(['white', 'blue']);
-
 
         this.selectedYear = 2007;
         this.selectedQuarter = 'Q1';
         this.selectedMonth = 1;
+
+        // setup the scales 
+        this.posGdpScale = d3.scaleLinear().domain([0.0, 5.0])
+            .range(['white', 'green']);
+
+        this.negativeColorScale = d3.scaleLinear().domain([-5.0, 0.0])
+            .range(['red', 'white']);
+
+        this.unemploymentColorScale = d3.scaleLinear().domain([0.0, 20.0])
+            .range(['white', 'darkblue']);
 
         this.selectedPosColorScale = this.posGdpScale;
     }
@@ -37,6 +37,7 @@ class Ripple {
         gdpGrowthData.isMonthly = false;
         unemploymentData.isMonthly = true;
 
+        // keep a reference of the data sets
         this.gdpGrowthData = gdpGrowthData;
         this.unemploymentData = unemploymentData;
         this.selectedData = this.gdpGrowthData;
@@ -50,9 +51,9 @@ class Ripple {
                     .classed('selected', false)
                     ;
                 d3.select('#ripple-gdp')
-                  .classed('selected', true)
-                  .attr('class', 'selected')
-                  ;
+                    .classed('selected', true)
+                    .attr('class', 'selected')
+                    ;
                 ripple.updateMap();
             })
             ;
@@ -65,18 +66,19 @@ class Ripple {
                     .classed('selected', false)
                     ;
                 d3.select('#ripple-unemployment')
-                  .classed('selected', true)
-                  .attr('class', 'selected')
-                  ;
+                    .classed('selected', true)
+                    .attr('class', 'selected')
+                    ;
                 ripple.updateMap();
             })
             ;
         ripple.updateMap();
     }
 
+    // given a month, return the quarter it is in
     monthToQuarter(month) {
-        if(month == 12) { return 'Q4'; }
-        let q = Math.trunc(month / 3) + 1; 
+        if (month == 12) { return 'Q4'; }
+        let q = Math.trunc(month / 3) + 1;
         return 'Q' + q;
     }
 
@@ -84,25 +86,25 @@ class Ripple {
     update(month, year) {
         // early out - if the data is quarterly and the update doesn't change 
         // the year or the quarter, return
-        if(!this.selectedData.isMonthly && this.selectedYear == year && 
+        if (!this.selectedData.isMonthly && this.selectedYear == year &&
             this.selectedQuarter == this.monthToQuarter(month)) {
-                return;
-            }
+            return;
+        }
 
         this.selectedMonth = month;
         this.selectedYear = year;
         this.selectedQuarter = this.monthToQuarter(month);
-        console.log('Ripple chart updating with data ', this.selectedData, 
-          ' year ', this.selectedYear, 
-          ' month ', this.selectedMonth,
-          ' quarter ', this.selectedQuarter
-          );
+        console.log('Ripple chart updating with data ', this.selectedData,
+            ' year ', this.selectedYear,
+            ' month ', this.selectedMonth,
+            ' quarter ', this.selectedQuarter
+        );
         this.updateMap();
     }
 
     // get the color corresponding to a target value
     getColor(value) {
-        if(undefined == value) { return 'lightgrey'; }
+        if (undefined == value) { return 'lightgrey'; }
         if (value < 0) {
             return this.negativeColorScale(value);
         } else {
@@ -118,12 +120,11 @@ class Ripple {
         let yearMatch = countryMatch.filter(d => {
             return d.year == year;
         });
-        let targetValue = []; 
+        let targetValue = [];
         if (data.isMonthly) {
             targetValue = yearMatch.filter(d => {
                 return d.month == month;
-            })
-
+            });
         } else {
             targetValue = yearMatch.filter(d => {
                 return d.quarter == this.monthToQuarter(month);
@@ -138,7 +139,6 @@ class Ripple {
     }
 
     // color the map according to the {year} and {quarter} within the dataset {data}
-    // updateMap(data, year, quarter) {
     updateMap() {
         let map = d3.select("#map");
 

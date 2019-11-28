@@ -9,17 +9,20 @@ class TimeSlider {
         this.selectedMonth = 1;
     }
 
+    // add a subscriber to this TimeSlider subject. The subscriber
+    // must have an update method that takes a month and a year as params
     addSubscriber(subscriber) {
         this.subscribers.push(subscriber);
     }
 
+    // send the updated month and year to all observers
     updateSubscribers() {
-        console.log('this.subscribers', this.subscribers);
         this.subscribers.forEach((subscriber) => {
             subscriber.update(this.selectedMonth, this.selectedYear);
         })
     }
 
+    // several functions to advance the slider forward or backward a certain period
     previousQuarter() {
         let month = this.selectedMonth - 3;
         let year = this.selectedYear;
@@ -64,11 +67,13 @@ class TimeSlider {
         this.setValue(this.selectedMonth, this.selectedYear + 1);
     }
 
+    // method to begin the slider incrementing its value and updating its observers
     startPlayMode() {
         this.keepPlaying = true;
         this.playModeImpl();
     }
 
+    // TODO: this method is broken, fix it
     stopPlayMode() {
         this.keepPlaying = false;
     }
@@ -102,10 +107,6 @@ class TimeSlider {
     }
 
     init() {
-        // Time
-        let dataTime = d3.range(0, 40).map(function (d) {
-            return new Date(1980 + d, 10, 3);
-        });
         let yearRange = d3.range(this.yearRange.min, this.yearRange.max);
 
         let sliderTime = d3.select('#year-selector')
@@ -144,6 +145,7 @@ class TimeSlider {
             .attr('label', (d) => { return d + ' '; })
             ;
 
+        // add buttons to step forward and back through the vis
         let previousQuarterButton = d3.select('#year-selector')
             .append('button')
             .text('Previous Quarter')
@@ -195,6 +197,7 @@ class TimeSlider {
             })
             ;
 
+        // set the starting value for the slider
         this.setValue(this.selectedMonth, this.selectedYear);
     }
 }
