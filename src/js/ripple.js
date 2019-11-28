@@ -45,6 +45,14 @@ class Ripple {
             .on('click', () => {
                 this.selectedData = this.gdpGrowthData;
                 this.selectedPosColorScale = this.posGdpScale;
+                d3.select('#ripple-buttons')
+                    .selectAll('.selected')
+                    .classed('selected', false)
+                    ;
+                d3.select('#ripple-gdp')
+                  .classed('selected', true)
+                  .attr('class', 'selected')
+                  ;
                 ripple.updateMap();
             })
             ;
@@ -52,6 +60,14 @@ class Ripple {
             .on('click', () => {
                 this.selectedData = this.unemploymentData;
                 this.selectedPosColorScale = this.unemploymentColorScale;
+                d3.select('#ripple-buttons')
+                    .selectAll('.selected')
+                    .classed('selected', false)
+                    ;
+                d3.select('#ripple-unemployment')
+                  .classed('selected', true)
+                  .attr('class', 'selected')
+                  ;
                 ripple.updateMap();
             })
             ;
