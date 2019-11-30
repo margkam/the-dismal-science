@@ -169,6 +169,124 @@ class IndicatorsChart {
             .y(d => unemploymentScale(d.UNRATE))
         ;
 
+        
+        // show line and tooltip on hover
+
+        let tooltip = this.svg.append('g')
+            .attr('display', 'none')
+        ;
+
+        tooltip.append('rect')
+            .attr('id', 'hover-line')
+            .attr('y', 0)
+            .attr('width', 1)
+            .attr('height', this.config.height - this.config.axisWidth)
+        ;
+
+        let hoverLabel = tooltip.append('g')
+            .attr('id', 'hover-label')
+        ;
+        
+        hoverLabel.append('rect')
+            .attr('id', 'hover-label-rect')
+            .attr('x', 1)
+            .attr('y', -35)
+            .attr('width', 70)
+            .attr('height', 35)
+        ;
+
+        hoverLabel.append('text')
+            .attr('id', 'hover-text-date')
+            .attr('class', 'hover-text')
+            .attr('x', 7)
+            .attr('y', -20)
+        ;
+
+        hoverLabel.append('text')
+            .attr('id', 'hover-text-data')
+            .attr('class', 'hover-text')
+            .attr('x', 7)
+            .attr('y', -5)
+        ;        
+
+        this.tooltipDict = {};
+        let bigThis = this;
+        let axisWidth = this.config.axisWidth;
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        this.svg.append('rect')
+            .attr('class', 'overlay')
+            .attr('x', this.config.axisWidth)
+            .attr('width', this.config.width - this.config.axisWidth)
+            .attr('height', this.config.height - this.config.axisWidth)
+            .on('mouseover', function() {
+                tooltip.attr('display', null);
+            })
+            .on('mousemove', function() {
+                let x = d3.mouse(this)[0];
+                let y = d3.mouse(this)[1];
+                var date = timeScale.invert(x - axisWidth);
+                var dateString = `${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+                var data = bigThis.tooltipDict[dateString];
+                
+                d3.select('#hover-line')
+                    .attr('x', x)
+                ;
+
+                d3.select('#hover-label')
+                    .attr('transform', `translate(${x},${y})`)
+                ;
+
+                d3.select('#hover-text-date')
+                    .html(`${dateString}:`)
+                ;
+
+                let dataDisplay = d3.select('#hover-text-data');
+                if (data == undefined) {
+                    dataDisplay.attr('display', 'none');
+                } else {
+                    dataDisplay.html(`${bigThis.tooltipDict['pre']}${data}${bigThis.tooltipDict['post']}`)
+                        .attr('display', null)
+                    ;
+                }
+            })
+            .on('mouseout', function() {
+                tooltip.attr('display', 'none');
+            })
+        ;
+
+        //set up data access for tooltip
+        this.yieldCurveDict = {};
+        this.yieldCurve.map(d => {
+            let date = new Date(d.DATE);
+            let index = months[date.getUTCMonth()] + " " + date.getUTCFullYear().toString();
+            this.yieldCurveDict[index] = d.T10Y3MM.toFixed(2);
+        });
+        this.yieldCurveDict['pre'] = "";
+        this.yieldCurveDict['post'] = "%";
+    
+        this.investmentDict = {};
+        this.investment.forEach(d => {
+            let date = new Date(d.DATE);
+            let month = date.getUTCMonth();
+            let data = d.GPDI.toFixed(2);
+            this.investmentDict[months[month] + " " + date.getUTCFullYear().toString()] = data;
+            this.investmentDict[months[month+1] + " " + date.getUTCFullYear().toString()] = data;
+            this.investmentDict[months[month+2] + " " + date.getUTCFullYear().toString()] = data;          
+        });
+        this.investmentDict['pre'] = "$";
+        this.investmentDict['post'] = "T";
+        this.investmentDict['Aug 2019'] = undefined; //compensate for showing data through whole quarter
+        this.investmentDict['Sep 2019'] = undefined;
+        
+        this.unemploymentDict = {};
+        this.unemployment.forEach(d => {
+            let date = new Date(d.DATE);
+            let index = months[date.getUTCMonth()] + " " + date.getUTCFullYear().toString();
+            this.unemploymentDict[index] = d.UNRATE.toFixed(2);
+        });
+        this.unemploymentDict['pre'] = "";
+        this.unemploymentDict['post'] = "%";
+
         this.showYieldCurve();
     }
 
@@ -224,6 +342,7 @@ class IndicatorsChart {
         ;
 
         this.yieldCurveShowing = true;
+        this.tooltipDict = this.yieldCurveDict;
     }
 
     showInvestment() {
@@ -257,6 +376,7 @@ class IndicatorsChart {
         ;
 
         this.yieldCurveShowing = false;
+        this.tooltipDict = this.investmentDict;
     }
 
     showUnemployment() {
@@ -290,5 +410,6 @@ class IndicatorsChart {
         ;
 
         this.yieldCurveShowing = false;
+        this.tooltipDict = this.unemploymentDict;
     }
 }

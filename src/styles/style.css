@@ -23,6 +23,31 @@ button.selected {
     color: white;
 }
 
+.overlay {
+    fill: none;
+    pointer-events: all;
+    cursor: crosshair;
+}
+
+#hover-line {
+    fill: gray;
+    stroke-width: 0;
+}
+
+.hover-text {
+    font-size: 13px;
+}
+
+.hover-label-date {
+    font-style: bold;
+}
+
+#hover-label-rect {
+    fill: white;
+    stroke: none;
+    opacity: 0.7;
+}
+
 #indicator-curve {
     fill: transparent;
     stroke: black;
