@@ -6,7 +6,9 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <title>Recession Vis</title>
   <link rel="stylesheet" href="src/styles/style.css" />
-  <script src="src/libs/d3.js"></script>
+  <!-- <script src="src/libs/d3.js"></script> -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="//d3js.org/d3-geo-projection.v1.min.js"></script>
   <script src="src/libs/topojson.min.js"></script>
 </head>
 
@@ -14,17 +16,17 @@
 
   <h1>Confessions of a Recessed Economy</h1>
 
-  <h2>Visualizing the World Economy:</h2>
-  <h2 class="h2-tagline">Will our trash end up in your backyard?</h2>
+  <h2>The World Economy:</h2>
+  <h2 class="h2-tagline">Debugging the Spread of Recessions</h2>
   <div id="ripple-chart" class="chart">
     <div id="ripple-buttons">
-      <button id='ripple-gdp'>GDP Growth</button>
+      <button id='ripple-gdp' class="selected">GDP Growth</button>
       <button id='ripple-unemployment'>Unemployment</button>
       <button id='ripple-happy'>Life Satisfaction</button>
       <br/>
       <br/>
     </div>
-    <svg width="1200" height="600">
+    <svg width="1200" height="550">
       <g id="map"> </g>
       <g id="points"></g>
     </svg>
@@ -47,7 +49,9 @@
   </div>
   <div id="placeholder"></div>
 
+  <script type="application/javascript" src="src/js/utils.js"></script>
   <script type="application/javascript" src="src/js/ripple.js"></script>
+  <script type="application/javascript" src="src/js/timeSlider.js"></script>
   <script type="application/javascript" src="src/js/indicatorsChart.js"></script>
   <script type="application/javascript" src="src/js/script.js"></script>
 </body>

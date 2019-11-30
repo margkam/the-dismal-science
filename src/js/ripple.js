@@ -1,9 +1,9 @@
 class Ripple {
     constructor() {
         this.config = {
-            scale: 180,
+            scale: 170,
             width: 1200,
-            height: 600,
+            height: 550,
             padding: {
                 top: 10,
                 left: 10,
@@ -11,61 +11,135 @@ class Ripple {
                 bottom: 10
             }
         }
-        this.projection = d3.geoEquirectangular()
+        this.projection = d3.geoRobinson()
             .scale(this.config.scale)
-            //.translate([this.config.padding.left, this.config.padding.top])
             ;
 
-        this.positiveColorScale = d3.scaleLinear().domain([0.0, 4.0])
-            .range(['white', 'green'])
-        this.negativeColorScale = d3.scaleLinear().domain([-4.0, 0.0])
-            .range(['red', 'white'])
+        this.selectedYear = 2007;
+        this.selectedQuarter = 'Q1';
+        this.selectedMonth = 1;
+
+        // setup the scales 
+        this.posGdpScale = d3.scaleLinear().domain([0.0, 5.0])
+            .range(['white', 'green']);
+
+        this.negativeColorScale = d3.scaleLinear().domain([-5.0, 0.0])
+            .range(['red', 'white']);
+
+        this.unemploymentColorScale = d3.scaleLinear().domain([0.0, 20.0])
+            .range(['white', 'darkblue']);
+
+        this.selectedPosColorScale = this.posGdpScale;
     }
 
-    update(data, year, quarter) {
-        console.log('Ripple chart updating with data ', data, ' year ', year, ' quarter ', quarter);
+    // initialize the vis, passing in the data that will be used in different modes
+    init(gdpGrowthData, unemploymentData) {
+        gdpGrowthData.isMonthly = false;
+        unemploymentData.isMonthly = true;
+
+        // keep a reference of the data sets
+        this.gdpGrowthData = gdpGrowthData;
+        this.unemploymentData = unemploymentData;
+        this.selectedData = this.gdpGrowthData;
+
+        d3.select('#ripple-gdp')
+            .on('click', () => {
+                this.selectedData = this.gdpGrowthData;
+                this.selectedPosColorScale = this.posGdpScale;
+                d3.select('#ripple-buttons')
+                    .selectAll('.selected')
+                    .classed('selected', false)
+                    ;
+                d3.select('#ripple-gdp')
+                    .classed('selected', true)
+                    .attr('class', 'selected')
+                    ;
+                ripple.updateMap();
+            })
+            ;
+        d3.select('#ripple-unemployment')
+            .on('click', () => {
+                this.selectedData = this.unemploymentData;
+                this.selectedPosColorScale = this.unemploymentColorScale;
+                d3.select('#ripple-buttons')
+                    .selectAll('.selected')
+                    .classed('selected', false)
+                    ;
+                d3.select('#ripple-unemployment')
+                    .classed('selected', true)
+                    .attr('class', 'selected')
+                    ;
+                ripple.updateMap();
+            })
+            ;
+        ripple.updateMap();
     }
 
+    // as a subscriber of the time slider, the ripple needs to have an update method
+    update(month, year) {
+        // early out - if the data is quarterly and the update doesn't change 
+        // the year or the quarter, return
+        if (!this.selectedData.isMonthly && this.selectedYear == year &&
+            this.selectedQuarter == monthToQuarter(month)) {
+            return;
+        }
+
+        this.selectedMonth = month;
+        this.selectedYear = year;
+        this.selectedQuarter = monthToQuarter(month);
+        console.log('Ripple chart updating with data ', this.selectedData,
+            ' year ', this.selectedYear,
+            ' month ', this.selectedMonth,
+            ' quarter ', this.selectedQuarter
+        );
+        this.updateMap();
+    }
+
+    // get the color corresponding to a target value
     getColor(value) {
-        if(value < 0) {
+        if (undefined == value) { return 'lightgrey'; }
+        if (value < 0) {
             return this.negativeColorScale(value);
         } else {
-            return this.positiveColorScale(value);
+            return this.selectedPosColorScale(value);
         }
     }
 
-    getValue(data, id, year, quarter) {
+    // find the target value in the data
+    getValue(data, id, year, month) {
         let countryMatch = data.filter(d => {
             return d.countryId == id;
         });
         let yearMatch = countryMatch.filter(d => {
             return d.year == year;
         });
-        let quarterMatch = yearMatch.filter(d => {
-            return d.quarter = quarter;
-        })
-        if(undefined == quarterMatch ||
-            undefined == quarterMatch[0] ||
-            undefined == quarterMatch[0].value) {
-            return 0;
+        let targetValue = [];
+        if (data.isMonthly) {
+            targetValue = yearMatch.filter(d => {
+                return d.month == month;
+            });
+        } else {
+            targetValue = yearMatch.filter(d => {
+                return d.quarter == monthToQuarter(month);
+            })
         }
-        // console.log('match found: ', quarterMatch[0].value);
-        return quarterMatch[0].value;
+        if (undefined == targetValue ||
+            undefined == targetValue[0] ||
+            undefined == targetValue[0].value) {
+            return undefined;
+        }
+        return targetValue[0].value;
     }
 
-    updateMap(data, year, quarter) {
-        console.log('Ripple chart updating with data ', data, ' year ', year, ' quarter ', quarter);
-
+    // color the map according to the {year} and {quarter} within the dataset {data}
+    updateMap() {
         let map = d3.select("#map");
-
-        let oneAustralia = this.getValue(data, 'AUS', year, quarter);
-        console.log('one australia', oneAustralia);
 
         map.selectAll(".countries")
             .style('fill', (d) => {
-                if(undefined == d) { return 'white'; }
+                if (undefined == d) { return 'grey'; }
                 return this.getColor(
-                    this.getValue(data, d.id, year, quarter)
+                    this.getValue(this.selectedData, d.id, this.selectedYear, this.selectedMonth)
                 );
             })
             ;

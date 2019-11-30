@@ -85,3 +85,34 @@ button.selected {
     stroke-width: 1;
 }
 
+.ticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    width: 80%;
+  }
+  
+.tick {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 1px;
+    background: #D3D3D3;
+    height: 10px;
+    line-height: 40px;
+    margin: 0 0 20px 0;
+    font-size: 11px;
+    text-anchor: middle;
+    font-family: 'Times New Roman', serif;
+  }
+
+  .validated-input {
+    border:2px solid red;
+  }
+
+  .valid {
+    border:2px solid green;
+  }
+
+
