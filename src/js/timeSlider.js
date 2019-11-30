@@ -69,27 +69,23 @@ class TimeSlider {
 
     // method to begin the slider incrementing its value and updating its observers
     startPlayMode() {
-        this.keepPlaying = true;
         this.playModeImpl();
     }
 
-    // TODO: this method is broken, fix it
     stopPlayMode() {
-        this.keepPlaying = false;
+        this.previouslySelectedYear = this.selectedYear;
+        this.selectedYear = this.yearRange.max;
     }
 
     playModeImpl() {
-        if (!this.keepPlaying) {
-            console.log('stopped in impl');
-            return;
-        }
-        if (this.selectedYear < this.yearRange.max && this.keepPlaying) {
+        if (this.selectedYear < this.yearRange.max) {
             this.nextMonth();
             var millisecondsToWait = 1;
             setTimeout(() => {
-                console.log('Another loop');
                 this.startPlayMode()
             }, millisecondsToWait);
+        } else {
+            this.selectedYear = this.previouslySelectedYear;
         }
     }
 
