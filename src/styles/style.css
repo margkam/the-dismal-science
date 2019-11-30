@@ -85,14 +85,14 @@ button.selected {
     stroke-width: 1;
 }
 
-.ticks {
+#year-selector .ticks {
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
     width: 80%;
   }
   
-.tick {
+#year-selector .tick {
     position: relative;
     display: flex;
     justify-content: center;
