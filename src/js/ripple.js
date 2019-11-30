@@ -75,25 +75,18 @@ class Ripple {
         ripple.updateMap();
     }
 
-    // given a month, return the quarter it is in
-    monthToQuarter(month) {
-        if (month == 12) { return 'Q4'; }
-        let q = Math.trunc(month / 3) + 1;
-        return 'Q' + q;
-    }
-
     // as a subscriber of the time slider, the ripple needs to have an update method
     update(month, year) {
         // early out - if the data is quarterly and the update doesn't change 
         // the year or the quarter, return
         if (!this.selectedData.isMonthly && this.selectedYear == year &&
-            this.selectedQuarter == this.monthToQuarter(month)) {
+            this.selectedQuarter == monthToQuarter(month)) {
             return;
         }
 
         this.selectedMonth = month;
         this.selectedYear = year;
-        this.selectedQuarter = this.monthToQuarter(month);
+        this.selectedQuarter = monthToQuarter(month);
         console.log('Ripple chart updating with data ', this.selectedData,
             ' year ', this.selectedYear,
             ' month ', this.selectedMonth,
@@ -127,7 +120,7 @@ class Ripple {
             });
         } else {
             targetValue = yearMatch.filter(d => {
-                return d.quarter == this.monthToQuarter(month);
+                return d.quarter == monthToQuarter(month);
             })
         }
         if (undefined == targetValue ||

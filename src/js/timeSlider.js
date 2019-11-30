@@ -94,14 +94,17 @@ class TimeSlider {
             return;
         }
 
-        let value = year + (month * 1 / 12);
+        let value = +year + (+month * 1 / 12);
 
+        console.log('setting value to ', value);
+        console.log('year', year, 'month', month);
         document.getElementById("time-slider-id").value = value;
         this.selectedYear = year;
         this.selectedMonth = month;
         this.updateSubscribers();
     }
 
+    // set up the time slider, including buttons
     init() {
         let yearRange = d3.range(this.yearRange.min, this.yearRange.max);
 
@@ -193,7 +196,66 @@ class TimeSlider {
             })
             ;
 
+        let jumpToInput = d3.select('#year-selector')
+            .append('text')
+            .text('Jump To Time - ')
+            .append('input')
+            .attr('id', 'jump-to-time')
+            .attr('type', 'text')
+            .attr('class', 'validated-input valid')
+            .on('change', () => {
+                console.log('change event')
+                let val = document.getElementById('jump-to-time').value;
+                try {
+                    let parsed = this.parseDataTimeInput(val);
+                    this.setValue(parsed.month, parsed.year);
+                } catch(swallowed) { 
+                    console.log('swallowing', swallowed);
+                }
+ 
+            })
+            .on('input', () => {
+                let val = document.getElementById('jump-to-time').value;
+                try {
+                    this.parseDataTimeInput(val);
+                    d3.select('#jump-to-time')
+                      .classed('valid', true);
+                } catch(myException) {
+                    d3.select('#jump-to-time')
+                      .classed('valid', false)
+                      ;
+                }
+            })
+            ;
+
+
         // set the starting value for the slider
         this.setValue(this.selectedMonth, this.selectedYear);
+    }
+
+    // handle parsing of input from the jump to input box
+    // warning: this method throws. Frequently. 
+    parseDataTimeInput(input) {
+        if(input.startsWith('Q')) {
+            let splitTime = input.split(' ');
+            return {
+                year: splitTime[1],
+                month: quarterToMonth(splitTime[0])
+            }
+        } else {
+            let date = new Date(input);
+            if(date.toString() == 'Invalid Date') {
+                throw 'Invalid date';
+            } else if(date.getFullYear() < this.yearRange.min) {
+                throw 'Date before data range';
+            } else if(date.getFullYear() > this.yearRange.max) {
+                throw 'Date in future';
+            }
+            return {
+                year: date.getFullYear(),
+                month: date.getMonth()
+            }
+        }
+
     }
 }

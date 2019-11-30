@@ -82,3 +82,12 @@ button.selected {
     font-family: 'Times New Roman', serif;
   }
 
+  .validated-input {
+    border:2px solid red;
+  }
+
+  .valid {
+    border:2px solid green;
+  }
+
+
