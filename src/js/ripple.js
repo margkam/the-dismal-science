@@ -1,9 +1,9 @@
 class Ripple {
     constructor() {
         this.config = {
-            scale: 180,
+            scale: 170,
             width: 1200,
-            height: 600,
+            height: 550,
             padding: {
                 top: 10,
                 left: 10,
@@ -11,7 +11,7 @@ class Ripple {
                 bottom: 10
             }
         }
-        this.projection = d3.geoEquirectangular()
+        this.projection = d3.geoRobinson()
             .scale(this.config.scale)
             ;
 
