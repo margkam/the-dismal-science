@@ -6,6 +6,10 @@ class IndicatorsChart {
             axisWidth: 50,
             startDate: Date.parse("1982-1-1"),
             endDate: Date.parse("2021-1-1"),
+            padding: {
+                left: 0,
+                right: 40
+            }
         }
 
         // data to create a horizontal line at 0
@@ -49,7 +53,10 @@ class IndicatorsChart {
 
         this.svg = d3.select('#indicators-chart')
             .append('svg')
-            .attr('width', this.config.width)
+            .attr('width', 
+                this.config.width 
+                + this.config.padding.left 
+                + this.config.padding.right)
             .attr('height', this.config.height)
         ;
 
