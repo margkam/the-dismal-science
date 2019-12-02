@@ -51,7 +51,28 @@ class Dendrogram {
             //.call(text => text.append("title").text(d => `${id(d)} // for tooltip
                 //${d.outgoing.length} outgoing
                 // ${d.incoming.length} incoming`))
-            ;
+        ;
+
+        //let colorin = "#00f";
+        //let colorout = "#f00";
+        let colornone = "#ccc";
+
+        let line = d3.lineRadial()
+            .curve(d3.curveBundle.beta(0.85))
+            .radius(d => d.y)
+            .angle(d => d.x)
+        ;
+
+        const link = this.svg.append("g")
+            .attr("stroke", colornone)
+            .attr("fill", "none")
+            .selectAll("path")
+            .data(root.leaves().flatMap(leaf => leaf.outgoing))
+            .join("path")
+            .style("mix-blend-mode", "multiply")
+            .attr("d", ([i, o]) => line(i.path(o)))
+            .each(function(d) { d.path = this; })
+        ;
 
     }
 
