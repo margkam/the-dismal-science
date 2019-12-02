@@ -138,4 +138,11 @@ button.selected {
       font-size: 8px;
   }
 
+  #year-list text {
+      font-size: 10px;
+      cursor: pointer;
+  }
+
+
+
 
