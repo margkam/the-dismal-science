@@ -102,4 +102,10 @@ Promise.all([
 
         indicatorsChart.display(recessions, gdp, yieldCurve, investment, unemployment);
     })
+
+    d3.json("src/data/Fta_country_hierarchy.json")
+        .then(tree => dendrogram.display(tree))
+    ;
+
+
 ;

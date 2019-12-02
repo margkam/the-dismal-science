@@ -134,4 +134,8 @@ button.selected {
     border:2px solid green;
   }
 
+  #dendrogram-node-label {
+      font-size: 8px;
+  }
+
 
