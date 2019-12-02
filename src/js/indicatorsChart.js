@@ -2,7 +2,8 @@ class IndicatorsChart {
     constructor() {
         this.config = {
             axisWidth: 50,
-            graphHeight: 450, // 'graph' refers to the part of the svg that shows the line graph itself, not including axes
+            gdpHeight: 80, // for upper svg showing gdp
+            graphHeight: 450, // 'graph' refers to the part of the main svg that shows the line graph itself, not including axes
             graphWidth: 850, 
             paddingRight: 70,
             margin: 25,
@@ -42,19 +43,29 @@ class IndicatorsChart {
         ;
 
         d3.select('#indicators-buttons')
-        .append('button')
-        .attr('id', 'unemployment-button')
-        .html('Unemployment')
-        .on('click', (d, i) => {
-            this.showUnemployment();
-        })
-    ;
+            .append('button')
+            .attr('id', 'unemployment-button')
+            .html('Unemployment')
+            .on('click', (d, i) => {
+                this.showUnemployment();
+            })
+        ;
+
+        this.gdpSvg = d3.select('#indicators-chart')
+            .append('svg')
+            .attr('id', 'gdp-curve-svg')
+            .attr('width', this.config.axisWidth + this.config.graphWidth + this.config.paddingRight)
+            .attr('height', this.config.gdpHeight + 5)
+            .style('margin-top', this.config.margin.toString() + 'px')
+            .style('margin-left', this.config.margin.toString() + 'px')
+
+        ;
 
         this.svg = d3.select('#indicators-chart')
             .append('svg')
             .attr('width', this.config.axisWidth + this.config.graphWidth + this.config.paddingRight)
             .attr('height', this.config.graphHeight + this.config.axisWidth)
-            .style('margin-top', this.config.margin.toString() + 'px')
+            .style('margin-top', (this.config.margin / 3).toString() + 'px')
             .style('margin-left', this.config.margin.toString() + 'px')
         ;
 
@@ -88,7 +99,7 @@ class IndicatorsChart {
         this.yieldCurveShowing = false;
     }
 
-    display(recessions, yieldCurve, investment, unemployment) {
+    display(recessions, gdp, yieldCurve, investment, unemployment) {
         this.recessions = recessions;
         this.yieldCurve = yieldCurve;
         this.investment = investment;
@@ -100,6 +111,17 @@ class IndicatorsChart {
         ;       
 
         // add rectangles for recessions 
+        this.gdpSvg.selectAll('rect')
+            .data(this.recessions)
+            .enter()
+            .append('rect')
+            .attr('class', 'recession')
+            .attr('x', d => timeScale(d.START) + this.config.axisWidth)
+            .attr('y', 0)
+            .attr('width', d => timeScale(d.END) - timeScale(d.START))
+            .attr('height', this.config.gdpHeight)
+        ;
+
         this.svg.selectAll('rect')
             .data(this.recessions)
             .enter()
@@ -109,10 +131,17 @@ class IndicatorsChart {
             .attr('y', 0)
             .attr('width', d => timeScale(d.END) - timeScale(d.START))
             .attr('height', this.config.graphHeight)
-            // it would be cool for opacity to encode severity of the recession. Perhaps measure severity by length of recession?
         ;
 
         //append a rect as a vertical line marking today
+        this.gdpSvg.append('rect')
+            .attr('id', 'today-line')
+            .attr('x', timeScale(Date.now()) + this.config.axisWidth)
+            .attr('y', 0)
+            .attr('width', 1)
+            .attr('height', this.config.gdpHeight)
+        ;
+        
         this.svg.append('rect')
             .attr('id', 'today-line')
             .attr('x', timeScale(Date.now()) + this.config.axisWidth)
@@ -146,6 +175,11 @@ class IndicatorsChart {
         ;
 
         //create indicator scales
+        let gdpScale = d3.scaleLinear()
+            .domain([0, 24])
+            .range([this.config.gdpHeight, 0])
+        ;
+
         let yieldCurveScale = d3.scaleLinear()
             .domain([-1.5, 5.1])
             .range([this.config.graphHeight, 0])
@@ -162,17 +196,29 @@ class IndicatorsChart {
         ;
 
         //create indicator axes
+        this.gdpAxis = d3.axisLeft(gdpScale)
+            .ticks(3)
+            .tickSizeOuter(0)
+        ;
+
         this.yieldCurveAxis = d3.axisLeft(yieldCurveScale)
             .tickSizeOuter(0)
         ;
+
         this.investmentAxis = d3.axisLeft(investmentScale)
             .tickSizeOuter(0)
         ;
+
         this.unemploymentAxis = d3.axisLeft(unemploymentScale)
             .tickSizeOuter(0)
         ;
 
         //append y axis element
+        this.gdpSvg.append('g')
+            .attr('transform', `translate(${this.config.axisWidth},0)`)
+            .call(this.gdpAxis)
+        ;
+
         this.svg.append('g')
             .attr('id', 'y-axis')
             .attr('transform', `translate(${this.config.axisWidth},0)`)
@@ -180,7 +226,17 @@ class IndicatorsChart {
 
         //append y axis label element
         let x = 15;
-        let y = this.config.graphHeight/2;
+        let y = this.config.graphHeight / 2;
+        let gdpY = this.config.gdpHeight / 2;
+        
+        this.gdpSvg.append('text')
+            .attr('class', 'axis-label')
+            .attr('x', x)
+            .attr('y', gdpY)
+            .attr('transform', `rotate(270 ${x} ${gdpY})`)
+            .html('GDP (USD, Tr)')
+        ;
+
         this.svg.append('text')
             .attr('id', 'y-axis-label')
             .attr('class', 'axis-label')
@@ -188,13 +244,13 @@ class IndicatorsChart {
             .attr('y', y)
             .attr('transform', `rotate(270 ${x} ${y})`)
         ;
-
-        //append path 
-        this.svg.append('path')
-            .attr('id', 'indicator-curve')
-        ;
         
         // create indicator line generators
+        let gdpGenerator = d3.line()
+            .x(d => timeScale(d.DATE) + this.config.axisWidth)
+            .y(d => gdpScale(d.GDP))
+        ;
+
         this.yieldCurveGenerator = d3.line()
             .x(d => timeScale(d.DATE) + this.config.axisWidth)
             .y(d => yieldCurveScale(d.T10Y3MM))
@@ -210,6 +266,15 @@ class IndicatorsChart {
             .y(d => unemploymentScale(d.UNRATE))
         ;
 
+        //append path 
+        this.gdpSvg.append('path')
+            .attr('id', 'gdp-curve')
+            .attr('d', gdpGenerator(gdp))
+        ;
+
+        this.svg.append('path')
+            .attr('id', 'indicator-curve')
+        ;
         
         // show line and tooltip on hover
 
