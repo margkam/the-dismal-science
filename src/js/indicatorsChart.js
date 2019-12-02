@@ -1,9 +1,12 @@
 class IndicatorsChart {
     constructor() {
         this.config = {
-            width: 900,
-            height: 500,
             axisWidth: 50,
+            graphHeight: 450, // 'graph' refers to the part of the svg that shows the line graph itself, not including axes
+            graphWidth: 850, 
+            paddingRight: 70,
+            margin: 25,
+            econTextWidth: 250,
             startDate: Date.parse("1982-1-1"),
             endDate: Date.parse("2021-1-1"),
         }
@@ -49,9 +52,26 @@ class IndicatorsChart {
 
         this.svg = d3.select('#indicators-chart')
             .append('svg')
-            .attr('width', this.config.width)
-            .attr('height', this.config.height)
+            .attr('width', this.config.axisWidth + this.config.graphWidth + this.config.paddingRight)
+            .attr('height', this.config.graphHeight + this.config.axisWidth)
+            .style('margin-top', this.config.margin.toString() + 'px')
+            .style('margin-left', this.config.margin.toString() + 'px')
         ;
+
+        this.econText = {
+            'Yield Curve' : '[A brief definition of the economic term "yield curve" for the benefit of the non-economist viewer]',
+            'Business Investment' : '[A brief definition of the economic term "business investment" for the benefit of the non-economist viewer]',
+            'Unemployment' : '[A brief definition of the economic term "unemployment" for the benefit of the non-economist viewer]',
+        }
+        
+        this.econTextElement = d3.select('#indicators-chart')
+            .append('div')
+            .style('width', this.config.econTextWidth.toString() + 'px')
+            .attr('id', 'econ-text')
+        ;
+
+        this.econTextElement.title = this.econTextElement.append('h3');
+        this.econTextElement.text = this.econTextElement.append('p');
 
         this.yieldCurveShowing = false;
     }
@@ -64,7 +84,7 @@ class IndicatorsChart {
 
         let timeScale = d3.scaleTime()
             .domain([this.config.startDate, this.config.endDate])
-            .range([0, this.config.width - this.config.axisWidth])
+            .range([0, this.config.graphWidth])
         ;       
 
         // add rectangles for recessions 
@@ -76,7 +96,7 @@ class IndicatorsChart {
             .attr('x', d => timeScale(d.START) + this.config.axisWidth)
             .attr('y', 0)
             .attr('width', d => timeScale(d.END) - timeScale(d.START))
-            .attr('height', this.config.height - this.config.axisWidth)
+            .attr('height', this.config.graphHeight)
             // it would be cool for opacity to encode severity of the recession. Perhaps measure severity by length of recession?
         ;
 
@@ -86,7 +106,7 @@ class IndicatorsChart {
             .attr('x', timeScale(Date.now()) + this.config.axisWidth)
             .attr('y', 0)
             .attr('width', 1)
-            .attr('height', this.config.height - this.config.axisWidth)
+            .attr('height', this.config.graphHeight)
         ;
         
         this.addEventLabel("1990 Recession", timeScale(this.recessions[1].START), null);
@@ -95,10 +115,13 @@ class IndicatorsChart {
         this.addEventLabel("TODAY", timeScale(Date.now()), "today-label");
 
         //create and append x axis
-        let xAxis = d3.axisBottom(timeScale);
+        let xAxis = d3.axisBottom(timeScale)
+            .tickSizeOuter(0)
+        ;
+
         this.svg.append('g')
             .attr('id', 'x-axis')
-            .attr('transform', `translate(${this.config.axisWidth}, ${this.config.height - this.config.axisWidth})`)
+            .attr('transform', `translate(${this.config.axisWidth}, ${this.config.graphHeight})`)
             .call(xAxis)
         ;
 
@@ -106,30 +129,36 @@ class IndicatorsChart {
         this.svg.append('text')
             .html('Year')
             .attr('class', 'axis-label')
-            .attr('x', (this.config.width - this.config.axisWidth)/2 + this.config.axisWidth)
-            .attr('y', this.config.height - 15)
+            .attr('x', this.config.axisWidth + this.config.graphWidth/2)
+            .attr('y', this.config.graphHeight + this.config.axisWidth - 15)
         ;
 
         //create indicator scales
         let yieldCurveScale = d3.scaleLinear()
             .domain([-1.5, 5.1])
-            .range([this.config.height - this.config.axisWidth, 0])
+            .range([this.config.graphHeight, 0])
         ;
 
         let investmentScale = d3.scaleLinear()
             .domain([0, 4.8])
-            .range([this.config.height - this.config.axisWidth, 0])
+            .range([this.config.graphHeight, 0])
         ;
 
         let unemploymentScale = d3.scaleLinear()
             .domain([0, 15])
-            .range([this.config.height - this.config.axisWidth, 0])
+            .range([this.config.graphHeight, 0])
         ;
 
         //create indicator axes
-        this.yieldCurveAxis = d3.axisLeft(yieldCurveScale);
-        this.investmentAxis = d3.axisLeft(investmentScale);
-        this.unemploymentAxis = d3.axisLeft(unemploymentScale);
+        this.yieldCurveAxis = d3.axisLeft(yieldCurveScale)
+            .tickSizeOuter(0)
+        ;
+        this.investmentAxis = d3.axisLeft(investmentScale)
+            .tickSizeOuter(0)
+        ;
+        this.unemploymentAxis = d3.axisLeft(unemploymentScale)
+            .tickSizeOuter(0)
+        ;
 
         //append y axis element
         this.svg.append('g')
@@ -139,7 +168,7 @@ class IndicatorsChart {
 
         //append y axis label element
         let x = 15;
-        let y = (this.config.height - this.config.axisWidth)/2;
+        let y = this.config.graphHeight/2;
         this.svg.append('text')
             .attr('id', 'y-axis-label')
             .attr('class', 'axis-label')
@@ -180,7 +209,7 @@ class IndicatorsChart {
             .attr('id', 'hover-line')
             .attr('y', 0)
             .attr('width', 1)
-            .attr('height', this.config.height - this.config.axisWidth)
+            .attr('height', this.config.graphHeight)
         ;
 
         let hoverLabel = tooltip.append('g')
@@ -211,20 +240,19 @@ class IndicatorsChart {
 
         this.tooltipDict = {};
         let bigThis = this;
-        let axisWidth = this.config.axisWidth;
         let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         this.svg.append('rect')
             .attr('class', 'overlay')
             .attr('x', this.config.axisWidth)
-            .attr('width', this.config.width - this.config.axisWidth)
-            .attr('height', this.config.height - this.config.axisWidth)
+            .attr('width', this.config.graphWidth)
+            .attr('height', this.config.graphHeight)
             .on('mouseover', function() {
                 tooltip.attr('display', null);
             })
             .on('mousemove', function() {
                 let x = d3.mouse(this)[0];
                 let y = d3.mouse(this)[1];
-                var date = timeScale.invert(x - axisWidth);
+                var date = timeScale.invert(x - bigThis.config.axisWidth);
                 var dateString = `${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
                 var data = bigThis.tooltipDict[dateString];
                 
@@ -306,6 +334,11 @@ class IndicatorsChart {
         }
     }
 
+    setEconText(title) {
+        this.econTextElement.title.html(title + ':');
+        this.econTextElement.text.html(this.econText[title]);
+    }
+
     showYieldCurve() {
         if (this.yieldCurveShowing) {
             return; // to avoid appending multiple zero-lines.
@@ -343,6 +376,7 @@ class IndicatorsChart {
 
         this.yieldCurveShowing = true;
         this.tooltipDict = this.yieldCurveDict;
+        this.setEconText('Yield Curve');
     }
 
     showInvestment() {
@@ -377,6 +411,7 @@ class IndicatorsChart {
 
         this.yieldCurveShowing = false;
         this.tooltipDict = this.investmentDict;
+        this.setEconText('Business Investment');
     }
 
     showUnemployment() {
@@ -411,5 +446,6 @@ class IndicatorsChart {
 
         this.yieldCurveShowing = false;
         this.tooltipDict = this.unemploymentDict;
+        this.setEconText('Unemployment');
     }
 }

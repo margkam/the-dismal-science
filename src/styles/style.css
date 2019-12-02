@@ -23,6 +23,11 @@ button.selected {
     color: white;
 }
 
+#econ-text {
+    display: inline-block;
+    vertical-align: top;
+}
+
 .overlay {
     fill: none;
     pointer-events: all;
