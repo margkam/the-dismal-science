@@ -3,6 +3,7 @@ console.log('Starting vis');
 let ripple = new Ripple();
 let timeSlider = new TimeSlider();
 let indicatorsChart = new IndicatorsChart();
+let dendrogram = new Dendrogram();
 
 let ripplePromises = [];
 
@@ -41,14 +42,6 @@ Promise.all(ripplePromises).then(datasets => {
 
     ripple.init(gdpGrowth, unemployment);
 })
-
-var img = document.createElement("img");
-img.width = 600;
-img.height = 600;
-img.src = "src/resources/Trade_Interconnectedness.png";
-
-var src = document.getElementById("placeholder");
-src.appendChild(img);
 
 //Load datasets and pass to indicatorsChart
 Promise.all([
