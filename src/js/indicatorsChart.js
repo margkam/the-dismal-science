@@ -6,7 +6,7 @@ class IndicatorsChart {
             graphWidth: 850, 
             paddingRight: 70,
             margin: 25,
-            econTextWidth: 250,
+            econTextWidth: 270,
             startDate: Date.parse("1982-1-1"),
             endDate: Date.parse("2021-1-1"),
         }
@@ -59,9 +59,18 @@ class IndicatorsChart {
         ;
 
         this.econText = {
-            'Yield Curve' : '[A brief definition of the economic term "yield curve" for the benefit of the non-economist viewer]',
-            'Business Investment' : '[A brief definition of the economic term "business investment" for the benefit of the non-economist viewer]',
-            'Unemployment' : '[A brief definition of the economic term "unemployment" for the benefit of the non-economist viewer]',
+            'Yield Curve' : [
+                'Difference in interest rates of long and short term bonds.',
+                'An "inverted" yield curve (below zero) means people expect the economy to be worse in the short term.',
+            ],
+            'Business Investment' : [
+                'How much businesses spend on stuff to improve whatever they do.',
+                'Stuff like new factory machinery, faster computers for employees, or nicer kitchens in rental units.',
+            ],
+            'Unemployment' : [
+                'Percentage of people who want jobs that don\'t have jobs.',
+                'Doesn\'t include children, inmates, care facilities, active duty military, or people who don\'t want jobs.',
+            ],
         }
         
         this.econTextElement = d3.select('#indicators-chart')
@@ -71,7 +80,10 @@ class IndicatorsChart {
         ;
 
         this.econTextElement.title = this.econTextElement.append('h3');
-        this.econTextElement.text = this.econTextElement.append('p');
+        this.econTextElement.definition = this.econTextElement.append('p');
+        this.econTextElement.funFact = this.econTextElement.append('p')
+            .attr('id', 'fun-fact')
+        ;
 
         this.yieldCurveShowing = false;
     }
@@ -336,7 +348,8 @@ class IndicatorsChart {
 
     setEconText(title) {
         this.econTextElement.title.html(title + ':');
-        this.econTextElement.text.html(this.econText[title]);
+        this.econTextElement.definition.html(this.econText[title][0]);
+        this.econTextElement.funFact.html(this.econText[title][1]);
     }
 
     showYieldCurve() {

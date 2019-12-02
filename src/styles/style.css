@@ -26,6 +26,11 @@ button.selected {
 #econ-text {
     display: inline-block;
     vertical-align: top;
+    color: gray;
+}
+
+#fun-fact {
+    font-style: italic;
 }
 
 .overlay {
