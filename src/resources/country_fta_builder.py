@@ -13,7 +13,7 @@ with open("List_of_treaties_dyadic.csv", "r") as csv_file:
         # 0 and 1 are country names
         # 5 is treaty id
         # 6 is treaty name
-        # ll is entry force year
+        # l0 is signing year
         # 14 is region
         if first_line == False:
             countryCombo = {row[0], row[1]}
@@ -34,7 +34,7 @@ with open("List_of_treaties_dyadic.csv", "r") as csv_file:
                 all_countries[country1].append({
                     "treaty": row[6],
                     "with": country2,
-                    "year": row[11],
+                    "year": row[10],
                 })
 
         first_line = False  
