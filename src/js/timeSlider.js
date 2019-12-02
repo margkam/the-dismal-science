@@ -22,6 +22,11 @@ class TimeSlider {
         })
     }
 
+    previousYear() {
+        this.selectedYear = Math.max(this.yearRange.min, this.selectedYear - 1);
+        this.setValue(this.selectedMonth, this.selectedYear);
+    }
+
     // several functions to advance the slider forward or backward a certain period
     previousQuarter() {
         let month = this.selectedMonth - 3;
@@ -64,7 +69,8 @@ class TimeSlider {
     }
 
     nextYear() {
-        this.setValue(this.selectedMonth, this.selectedYear + 1);
+        this.selectedYear = Math.min(this.yearRange.max, this.selectedYear + 1);
+        this.setValue(this.selectedMonth, this.selectedYear);
     }
 
     // method to begin the slider incrementing its value and updating its observers
@@ -145,41 +151,31 @@ class TimeSlider {
             ;
 
         // add buttons to step forward and back through the vis
-        let previousQuarterButton = d3.select('#year-selector')
+        let previousYearButton = d3.select('#step-buttons')
+            .append('button')
+            .text('Previous Year')
+            .on('click', () => {
+                this.previousYear();
+            })
+            ;
+
+        let previousQuarterButton = d3.select('#step-buttons')
             .append('button')
             .text('Previous Quarter')
             .on('click', () => {
-                console.log('Previous');
                 this.previousQuarter();
             })
             ;
 
-        let previousMonthButton = d3.select('#year-selector')
+        let previousMonthButton = d3.select('#step-buttons')
             .append('button')
             .text('Previous Month')
             .on('click', () => {
-                console.log('Previous');
                 this.previousMonth();
             })
             ;
 
-        let playButton = d3.select('#year-selector')
-            .append('button')
-            .text('Play')
-            .on('click', () => {
-                this.startPlayMode();
-            })
-            ;
-
-        let stopButton = d3.select('#year-selector')
-            .append('button')
-            .text('Stop')
-            .on('click', () => {
-                this.stopPlayMode();
-            })
-            ;
-
-        let nextMonthButton = d3.select('#year-selector')
+        let nextMonthButton = d3.select('#step-buttons')
             .append('button')
             .text('Next Month')
             .on('click', () => {
@@ -187,8 +183,7 @@ class TimeSlider {
             })
             ;
 
-
-        let nextQuarterButton = d3.select('#year-selector')
+        let nextQuarterButton = d3.select('#step-buttons')
             .append('button')
             .text('Next Quarter')
             .on('click', () => {
@@ -196,7 +191,31 @@ class TimeSlider {
             })
             ;
 
-        let jumpToInput = d3.select('#year-selector')
+        let nextYearButton = d3.select('#step-buttons')
+            .append('button')
+            .text('Next Year')
+            .on('click', () => {
+                this.nextYear();
+            })
+            ;
+
+        let playButton = d3.select('#play-stop-buttons')
+            .append('button')
+            .text('Play')
+            .on('click', () => {
+                this.startPlayMode();
+            })
+            ;
+
+        let stopButton = d3.select('#play-stop-buttons')
+            .append('button')
+            .text('Stop')
+            .on('click', () => {
+                this.stopPlayMode();
+            })
+            ;
+
+        let jumpToInput = d3.select('#play-stop-buttons')
             .append('text')
             .text('Jump To Time - ')
             .append('input')
@@ -204,7 +223,6 @@ class TimeSlider {
             .attr('type', 'text')
             .attr('class', 'validated-input valid')
             .on('change', () => {
-                console.log('change event')
                 let val = document.getElementById('jump-to-time').value;
                 try {
                     let parsed = this.parseDataTimeInput(val);
@@ -227,7 +245,6 @@ class TimeSlider {
                 }
             })
             ;
-
 
         // set the starting value for the slider
         this.setValue(this.selectedMonth, this.selectedYear);
@@ -256,6 +273,5 @@ class TimeSlider {
                 month: date.getMonth()
             }
         }
-
     }
 }
