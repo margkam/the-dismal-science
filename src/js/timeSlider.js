@@ -1,12 +1,14 @@
 class TimeSlider {
-    constructor() {
+    constructor(attachId, minYear, maxYear, selectedYear, yearsOnly) {
         this.subscribers = [];
+        this.attachId = attachId;
         this.yearRange = {
-            min: 1982,
-            max: 2019
+            min: minYear,
+            max: maxYear
         }
-        this.selectedYear = 2007;
+        this.selectedYear = selectedYear;
         this.selectedMonth = 1;
+        this.yearsOnly = yearsOnly;
     }
 
     // add a subscriber to this TimeSlider subject. The subscriber
@@ -114,14 +116,18 @@ class TimeSlider {
     init() {
         let yearRange = d3.range(this.yearRange.min, this.yearRange.max);
 
-        let sliderTime = d3.select('#year-selector')
+
+        let sliderTime = d3.select(`#${this.attachId}`)
+            .select('.year-selector')
             .append('input')
             .attr('type', 'range')
             .attr('min', this.yearRange.min)
             .attr('max', this.yearRange.max)
             .attr('list', 'tickmarks')
             .attr('id', 'time-slider-id')
-            .attr('step', 1 / 12)
+            .attr('step', () => {
+                return this.yearsOnly ? 1 : 1 / 12;
+            })
             .classed('slider', true)
             .style('width', "83%")
             .on('change', (event) => {
@@ -129,7 +135,7 @@ class TimeSlider {
                 let value = document.getElementById('time-slider-id').value;
                 let year = Math.trunc(value);
                 let remainder = value - year;
-                let month = Math.round(remainder * 12);
+                let month = Math.round(remainder * 12); // should always be 0 for yearly slider
 
                 // update self and subscribers
                 this.selectedYear = year;
@@ -138,7 +144,8 @@ class TimeSlider {
             })
             ;
 
-        let ticks = d3.select('#year-selector')
+        let ticks = d3.select(`#${this.attachId}`)
+            .select('.year-selector')
             .append('datalist')
             .attr('class', 'ticks')
             .selectAll('.tick')
@@ -151,7 +158,8 @@ class TimeSlider {
             ;
 
         // add buttons to step forward and back through the vis
-        let previousYearButton = d3.select('#step-buttons')
+        let previousYearButton = d3.select(`#${this.attachId}`)
+            .select('.step-buttons')
             .append('button')
             .text('Previous Year')
             .on('click', () => {
@@ -159,39 +167,46 @@ class TimeSlider {
             })
             ;
 
-        let previousQuarterButton = d3.select('#step-buttons')
-            .append('button')
-            .text('Previous Quarter')
-            .on('click', () => {
-                this.previousQuarter();
-            })
-            ;
+        if (!this.yearsOnly) {
+            let previousQuarterButton = d3.select(`#${this.attachId}`)
+                .select('.step-buttons')
+                .append('button')
+                .text('Previous Quarter')
+                .on('click', () => {
+                    this.previousQuarter();
+                })
+                ;
 
-        let previousMonthButton = d3.select('#step-buttons')
-            .append('button')
-            .text('Previous Month')
-            .on('click', () => {
-                this.previousMonth();
-            })
-            ;
+            let previousMonthButton = d3.select(`#${this.attachId}`)
+                .select('.step-buttons')
+                .append('button')
+                .text('Previous Month')
+                .on('click', () => {
+                    this.previousMonth();
+                })
+                ;
 
-        let nextMonthButton = d3.select('#step-buttons')
-            .append('button')
-            .text('Next Month')
-            .on('click', () => {
-                this.nextMonth();
-            })
-            ;
+            let nextMonthButton = d3.select(`#${this.attachId}`)
+                .select('.step-buttons')
+                .append('button')
+                .text('Next Month')
+                .on('click', () => {
+                    this.nextMonth();
+                })
+                ;
 
-        let nextQuarterButton = d3.select('#step-buttons')
-            .append('button')
-            .text('Next Quarter')
-            .on('click', () => {
-                this.nextQuarter();
-            })
-            ;
+            let nextQuarterButton = d3.select(`#${this.attachId}`)
+                .select('.step-buttons')
+                .append('button')
+                .text('Next Quarter')
+                .on('click', () => {
+                    this.nextQuarter();
+                })
+                ;
+        }
 
-        let nextYearButton = d3.select('#step-buttons')
+        let nextYearButton = d3.select(`#${this.attachId}`)
+            .select('.step-buttons')
             .append('button')
             .text('Next Year')
             .on('click', () => {
@@ -199,7 +214,8 @@ class TimeSlider {
             })
             ;
 
-        let playButton = d3.select('#play-stop-buttons')
+        let playButton = d3.select(`#${this.attachId}`)
+                .select('.play-stop-buttons')
             .append('button')
             .text('Play')
             .on('click', () => {
@@ -207,7 +223,8 @@ class TimeSlider {
             })
             ;
 
-        let stopButton = d3.select('#play-stop-buttons')
+        let stopButton = d3.select(`#${this.attachId}`)
+            .select('.play-stop-buttons')
             .append('button')
             .text('Stop')
             .on('click', () => {
@@ -215,7 +232,8 @@ class TimeSlider {
             })
             ;
 
-        let jumpToInput = d3.select('#play-stop-buttons')
+            let jumpToInput = d3.select(`#${this.attachId}`)
+            .select('.play-stop-buttons')
             .append('text')
             .text('Jump To Time - ')
             .append('input')
@@ -227,21 +245,21 @@ class TimeSlider {
                 try {
                     let parsed = this.parseDataTimeInput(val);
                     this.setValue(parsed.month, parsed.year);
-                } catch(swallowed) { 
+                } catch (swallowed) {
                     console.log('swallowing', swallowed);
                 }
- 
+
             })
             .on('input', () => {
                 let val = document.getElementById('jump-to-time').value;
                 try {
                     this.parseDataTimeInput(val);
                     d3.select('#jump-to-time')
-                      .classed('valid', true);
-                } catch(myException) {
+                        .classed('valid', true);
+                } catch (myException) {
                     d3.select('#jump-to-time')
-                      .classed('valid', false)
-                      ;
+                        .classed('valid', false)
+                        ;
                 }
             })
             ;
@@ -253,7 +271,7 @@ class TimeSlider {
     // handle parsing of input from the jump to input box
     // warning: this method throws. Frequently. 
     parseDataTimeInput(input) {
-        if(input.startsWith('Q')) {
+        if (input.startsWith('Q')) {
             let splitTime = input.split(' ');
             return {
                 year: splitTime[1],
@@ -261,11 +279,11 @@ class TimeSlider {
             }
         } else {
             let date = new Date(input);
-            if(date.toString() == 'Invalid Date') {
+            if (date.toString() == 'Invalid Date') {
                 throw 'Invalid date';
-            } else if(date.getFullYear() < this.yearRange.min) {
+            } else if (date.getFullYear() < this.yearRange.min) {
                 throw 'Date before data range';
-            } else if(date.getFullYear() > this.yearRange.max) {
+            } else if (date.getFullYear() > this.yearRange.max) {
                 throw 'Date in future';
             }
             return {

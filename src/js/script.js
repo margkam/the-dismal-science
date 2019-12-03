@@ -1,7 +1,8 @@
 console.log('Starting vis');
 
 let ripple = new Ripple();
-let timeSlider = new TimeSlider();
+let rippleSlider = new TimeSlider('ripple-slider', 1982, 2019, 2007, false);
+let tradeSlider = new TimeSlider('trade-slider', 1948, 2019, 2003, true);
 let indicatorsChart = new IndicatorsChart();
 let dendrogram = new Dendrogram();
 
@@ -34,8 +35,8 @@ ripplePromises.push(d3.csv('src/data/Harmonised_unemployment_rate.csv', function
 
 // load all datasets for the ripple chart
 Promise.all(ripplePromises).then(datasets => {
-    timeSlider.init();
-    timeSlider.addSubscriber(ripple);
+    rippleSlider.init();
+    rippleSlider.addSubscriber(ripple);
 
     let gdpGrowth = datasets[0];
     let unemployment = datasets[1];
@@ -100,6 +101,8 @@ Promise.all([
             entry.UNRATE = +entry.UNRATE;
         })
 
+        tradeSlider.init();
+        tradeSlider.addSubscriber(indicatorsChart);
         indicatorsChart.display(recessions, gdp, yieldCurve, investment, unemployment);
     })
 
