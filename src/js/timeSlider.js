@@ -177,9 +177,16 @@ class TimeSlider {
             .attr('class', 'tick')
             .attr('value', (d) => { return d; })
             .attr('label', (d) => { return d + ' '; })
+            //.attr('transform', 'rotate(270)')
             // .style('writing-mode', 'vertical-lr')
             // .style('text-orientation', 'mixed')
             ;
+
+        let tickText = d3.select(`#${this.attachId}`)
+            .select('option')
+            .attr('transform', 'rotate(270)');
+        console.log('YOU GOT is');
+        console.log(tickText);
 
         // add buttons to step forward and back through the vis
         let previousYearButton = d3.select(`#${this.attachId}`)

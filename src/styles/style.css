@@ -117,13 +117,15 @@ button.selected {
     justify-content: center;
     text-align: center;
     width: 1px;
-    background: #D3D3D3;
+    /*background: #D3D3D3;*/
+    transform: rotate(90deg) translateY(-15px);
+    /*color: red;*/
     height: 10px;
     line-height: 40px;
     margin: 0 0 20px 0;
     font-size: 11px;
     text-anchor: middle;
-    font-family: 'Times New Roman', serif;
+    /*font-family: 'Times New Roman', serif;*/
   }
 
   .validated-input {

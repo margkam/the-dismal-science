@@ -4,7 +4,7 @@ class Dendrogram {
     constructor() {
         this.config = {
             listWidth: 50,
-            width: 1000,
+            width: 900,
             startYear: 1948,
             endYear: 2018,
         }
@@ -19,11 +19,11 @@ class Dendrogram {
             })
         ;
 
-        this.listSvg = d3.select('#trade-chart')
+        /*this.listSvg = d3.select('#trade-chart')
             .append('svg')
             .attr('width', this.config.listWidth)
             .attr('height', this.config.width)
-        ;
+        ;*/
         
         this.dendroSvg = d3.select('#trade-chart')
             .append('svg')
@@ -33,9 +33,9 @@ class Dendrogram {
         ;
 
         
-        this.yearList = this.listSvg.append('g')
+        /*this.yearList = this.listSvg.append('g')
             .attr('id', 'year-list')
-        ;
+        ;*/
     }
 
     display(data) {
@@ -106,18 +106,18 @@ class Dendrogram {
         //let colorin = "#00f";
         //let colorout = "#f00";
         
-        let line = d3.lineRadial() // delete one of the two
+        let line = d3.lineRadial()
             .curve(d3.curveBundle.beta(0.85))
             .radius(d => d.y)
             .angle(d => d.x)
         ;
        
         this.linksByYear = {};
-        let y = 10;
-        let dy = this.config.width / 75;
+        //let y = 10;
+        //let dy = this.config.width / 75;
         for (let i = this.config.startYear; i <= this.config.endYear; ++i) {
             this.linksByYear[i] = [];
-            let t = this.yearList.append('text')
+            /*let t = this.yearList.append('text')
                 .attr('x', 20)
                 .attr('y', y)
                 .html(i)
@@ -125,7 +125,7 @@ class Dendrogram {
                     this.updateYear(i);
                 })
             ;
-            y += dy;
+            y += dy;*/
         }
 
         //note that outgoing = [myselfnode, linkdestinationnodej, treatyname, yearsigned]
@@ -170,7 +170,7 @@ class Dendrogram {
         d3.select('#fta-selected-year')
             .html('Selected year: ' + year)
         ;
-        
+
         let data = this.linksByYear[year];
         if (this.cumulative == true) {
             for (let i = year - 1; i >= this.config.startYear; --i) {
