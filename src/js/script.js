@@ -1,7 +1,7 @@
 console.log('Starting vis');
 
 let ripple = new Ripple();
-let timeSlider = new TimeSlider();
+let rippleSlider = new TimeSlider('ripple-slider', 1982, 2019, 2007, false);
 let indicatorsChart = new IndicatorsChart();
 
 let ripplePromises = [];
@@ -33,8 +33,8 @@ ripplePromises.push(d3.csv('src/data/Harmonised_unemployment_rate.csv', function
 
 // load all datasets for the ripple chart
 Promise.all(ripplePromises).then(datasets => {
-    timeSlider.init();
-    timeSlider.addSubscriber(ripple);
+    rippleSlider.init();
+    rippleSlider.addSubscriber(ripple);
 
     let gdpGrowth = datasets[0];
     let unemployment = datasets[1];
