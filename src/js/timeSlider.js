@@ -1,7 +1,10 @@
+let nextInstanceId = 0;
+
 class TimeSlider {
     constructor(attachId, minYear, maxYear, selectedYear, yearsOnly) {
         this.subscribers = [];
         this.attachId = attachId;
+        this.instanceId = nextInstanceId++;
 
         this.config = {
             width: 1200,
@@ -126,7 +129,7 @@ class TimeSlider {
 
         console.log('setting value to ', value);
         console.log('year', year, 'month', month);
-        document.getElementById("time-slider-id").value = value;
+        document.getElementById(`time-slider-id${this.instanceId}`).value = value;
         this.selectedYear = year;
         this.selectedMonth = month;
         this.updateSubscribers();
@@ -143,7 +146,7 @@ class TimeSlider {
             .attr('min', this.yearRange.min)
             .attr('max', this.yearRange.max)
             .attr('list', 'tickmarks')
-            .attr('id', 'time-slider-id')
+            .attr('id', `time-slider-id${this.instanceId}`)
             .attr('step', () => {
                 return this.yearsOnly ? 1 : 1 / 12;
             })
@@ -151,7 +154,7 @@ class TimeSlider {
             .style('width', "83%")
             .on('change', (event) => {
                 // determine month and year from slider value
-                let value = document.getElementById('time-slider-id').value;
+                let value = document.getElementById(`time-slider-id${this.instanceId}`).value;
                 let year = Math.trunc(value);
                 let remainder = value - year;
                 let month = Math.round(remainder * 12); // should always be 0 for yearly slider
