@@ -2,6 +2,7 @@ console.log('Starting vis');
 
 let ripple = new Ripple();
 let rippleSlider = new TimeSlider('ripple-slider', 1982, 2019, 2007, false);
+let tradeSlider = new TimeSlider('trade-slider', 1948, 2019, 2003, true);
 let indicatorsChart = new IndicatorsChart();
 let dendrogram = new Dendrogram();
 
@@ -100,6 +101,8 @@ Promise.all([
             entry.UNRATE = +entry.UNRATE;
         })
 
+        tradeSlider.init();
+        tradeSlider.addSubscriber(indicatorsChart);
         indicatorsChart.display(recessions, gdp, yieldCurve, investment, unemployment);
     })
 

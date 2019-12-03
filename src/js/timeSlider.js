@@ -116,8 +116,9 @@ class TimeSlider {
     init() {
         let yearRange = d3.range(this.yearRange.min, this.yearRange.max);
 
+
         let sliderTime = d3.select(`#${this.attachId}`)
-            .selectAll('.year-selector')
+            .select('.year-selector')
             .append('input')
             .attr('type', 'range')
             .attr('min', this.yearRange.min)
@@ -125,7 +126,7 @@ class TimeSlider {
             .attr('list', 'tickmarks')
             .attr('id', 'time-slider-id')
             .attr('step', () => {
-                this.isYearly ? 1 : 1 / 12;
+                return this.yearsOnly ? 1 : 1 / 12;
             })
             .classed('slider', true)
             .style('width', "83%")
@@ -144,7 +145,7 @@ class TimeSlider {
             ;
 
         let ticks = d3.select(`#${this.attachId}`)
-            .selectAll('.year-selector')
+            .select('.year-selector')
             .append('datalist')
             .attr('class', 'ticks')
             .selectAll('.tick')
@@ -158,7 +159,7 @@ class TimeSlider {
 
         // add buttons to step forward and back through the vis
         let previousYearButton = d3.select(`#${this.attachId}`)
-            .selectAll('.step-buttons')
+            .select('.step-buttons')
             .append('button')
             .text('Previous Year')
             .on('click', () => {
@@ -166,9 +167,9 @@ class TimeSlider {
             })
             ;
 
-        if (!this.isYearly) {
+        if (!this.yearsOnly) {
             let previousQuarterButton = d3.select(`#${this.attachId}`)
-                .selectAll('.step-buttons')
+                .select('.step-buttons')
                 .append('button')
                 .text('Previous Quarter')
                 .on('click', () => {
@@ -177,7 +178,7 @@ class TimeSlider {
                 ;
 
             let previousMonthButton = d3.select(`#${this.attachId}`)
-                .selectAll('.step-buttons')
+                .select('.step-buttons')
                 .append('button')
                 .text('Previous Month')
                 .on('click', () => {
@@ -223,7 +224,7 @@ class TimeSlider {
             ;
 
         let stopButton = d3.select(`#${this.attachId}`)
-            .selectAll('.play-stop-buttons')
+            .select('.play-stop-buttons')
             .append('button')
             .text('Stop')
             .on('click', () => {
@@ -232,7 +233,7 @@ class TimeSlider {
             ;
 
             let jumpToInput = d3.select(`#${this.attachId}`)
-            .selectAll('.play-stop-buttons')
+            .select('.play-stop-buttons')
             .append('text')
             .text('Jump To Time - ')
             .append('input')
