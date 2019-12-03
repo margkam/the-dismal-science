@@ -72,6 +72,40 @@ class Ripple {
                 ripple.updateMap();
             })
             ;
+
+        let scaleData = [];
+        for(let i = -6; i < 11; i += 2) {
+            scaleData.push({
+                value: i,
+                text: `${i}%`
+            })
+        }
+
+        d3.select('#ripple-chart')
+            .select('svg')
+            .selectAll('.scale-box')
+            .data(scaleData)
+            .enter()
+            .append('rect')
+            .attr('class', 'scale-box')
+            .attr('height', 30)
+            .attr('width', 30)
+            .attr('x', 10)
+            .attr('y', (d, i) => (i + 1) * 30)
+            .style('fill', d => this.getColor(d.value))
+
+        d3.select('#ripple-chart')
+            .select('svg')
+            .selectAll('.scale-label')
+            .data(scaleData)
+            .enter()
+            .append('g')
+            .attr("transform", (d,i) => `translate(40,${(i + 1) * 30 + 15})`)
+            .append('text')
+            .text(d => d.text)
+            .attr('class', 'scale-label')
+            ;
+
         ripple.updateMap();
     }
 
