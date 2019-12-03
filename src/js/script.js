@@ -2,7 +2,7 @@ console.log('Starting vis');
 
 let ripple = new Ripple();
 let rippleSlider = new TimeSlider('ripple-slider', 1982, 2019, 2007, false);
-let tradeSlider = new TimeSlider('trade-slider', 1948, 2019, 2003, true);
+let tradeSlider = new TimeSlider('trade-slider', 1948, 2018, 2003, true);
 let indicatorsChart = new IndicatorsChart();
 let dendrogram = new Dendrogram();
 
@@ -101,13 +101,15 @@ Promise.all([
             entry.UNRATE = +entry.UNRATE;
         })
 
-        tradeSlider.init();
-        tradeSlider.addSubscriber(indicatorsChart);
         indicatorsChart.display(recessions, gdp, yieldCurve, investment, unemployment);
     })
 
     d3.json("src/data/Fta_country_hierarchy.json")
-        .then(tree => dendrogram.display(tree))
+        .then(tree => {
+            tradeSlider.init();
+            tradeSlider.addSubscriber(dendrogram);
+            dendrogram.display(tree); 
+        })
     ;
 
 

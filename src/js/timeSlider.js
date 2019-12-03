@@ -87,8 +87,14 @@ class TimeSlider {
 
     playModeImpl() {
         if (this.selectedYear < this.yearRange.max) {
-            this.nextMonth();
             var millisecondsToWait = 1;
+            if (this.yearsOnly) {
+                this.nextYear();
+                millisecondsToWait = 1000;
+            } else {
+                this.nextMonth();
+            }
+            
             setTimeout(() => {
                 this.startPlayMode()
             }, millisecondsToWait);
@@ -237,11 +243,11 @@ class TimeSlider {
             .append('text')
             .text('Jump To Time - ')
             .append('input')
-            .attr('id', 'jump-to-time')
+            .attr('id', `jump-to-time-${this.attachId}`)
             .attr('type', 'text')
             .attr('class', 'validated-input valid')
             .on('change', () => {
-                let val = document.getElementById('jump-to-time').value;
+                let val = document.getElementById(`jump-to-time-${this.attachId}`).value;
                 try {
                     let parsed = this.parseDataTimeInput(val);
                     this.setValue(parsed.month, parsed.year);
@@ -251,13 +257,13 @@ class TimeSlider {
 
             })
             .on('input', () => {
-                let val = document.getElementById('jump-to-time').value;
+                let val = document.getElementById(`jump-to-time-${this.attachId}`).value;
                 try {
                     this.parseDataTimeInput(val);
-                    d3.select('#jump-to-time')
+                    d3.select(`#jump-to-time-${this.attachId}`)
                         .classed('valid', true);
                 } catch (myException) {
-                    d3.select('#jump-to-time')
+                    d3.select(`#jump-to-time-${this.attachId}`)
                         .classed('valid', false)
                         ;
                 }
@@ -279,6 +285,7 @@ class TimeSlider {
             }
         } else {
             let date = new Date(input);
+            if (this.yearsOnly) date = new Date(input, 0);
             if (date.toString() == 'Invalid Date') {
                 throw 'Invalid date';
             } else if (date.getFullYear() < this.yearRange.min) {

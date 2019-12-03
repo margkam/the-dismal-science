@@ -52,9 +52,7 @@ class Dendrogram {
         )); 
 
         //add region labels
-        console.log(root.children);
-        console.log(root.children.map(c => c.data.name));
-        this.dendroSvg.append("g") // note that the nodes have no mark, just a label
+        this.dendroSvg.append("g")
             .attr('id', 'dendrogram-region-label')
             .selectAll("g")
             .data(root.children)
@@ -74,7 +72,7 @@ class Dendrogram {
             .text(d => d.data.name)
         ;
         
-        const node = this.dendroSvg.append("g") // note that the nodes have no mark, just a label
+        this.dendroSvg.append("g") // note that the nodes have no mark, just a label
             .attr('id', 'dendrogram-node-label')
             .selectAll("g")
             .data(root.leaves())
@@ -150,7 +148,7 @@ class Dendrogram {
         ;
 
         this.cumulativeHelper = {};
-        this.updateYear(2018);
+        this.updateYear(2003);
     }
 
     filterByCountries(outgoing) {
@@ -197,6 +195,10 @@ class Dendrogram {
         ;
         
         this.year = year;
+    }
+
+    update(month, year) {
+        this.updateYear(year);
     }
 
     bilink(root) {
