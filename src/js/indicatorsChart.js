@@ -1,7 +1,7 @@
 class IndicatorsChart {
     constructor() {
         this.config = {
-            axisWidth: 50,
+            axisWidth: 60,
             gdpHeight: 80, // for upper svg showing gdp
             graphHeight: 450, // 'graph' refers to the part of the main svg that shows the line graph itself, not including axes
             graphWidth: 850, 
@@ -225,16 +225,24 @@ class IndicatorsChart {
         ;
 
         //append y axis label element
-        let x = 15;
+        let x = 25;
         let y = this.config.graphHeight / 2;
         let gdpY = this.config.gdpHeight / 2;
         
         this.gdpSvg.append('text')
             .attr('class', 'axis-label')
+            .attr('x', x-15)
+            .attr('y', gdpY)
+            .attr('transform', `rotate(270 ${x-15} ${gdpY})`)
+            .html('Real GDP')
+        ;
+
+        this.gdpSvg.append('text')
+            .attr('class', 'axis-label')
             .attr('x', x)
             .attr('y', gdpY)
             .attr('transform', `rotate(270 ${x} ${gdpY})`)
-            .html('GDP (USD, Tr)')
+            .html('(2012 USD, Tr)')
         ;
 
         this.svg.append('text')
@@ -248,7 +256,7 @@ class IndicatorsChart {
         // create indicator line generators
         let gdpGenerator = d3.line()
             .x(d => timeScale(d.DATE) + this.config.axisWidth)
-            .y(d => gdpScale(d.GDP))
+            .y(d => gdpScale(d.GDPC1))
         ;
 
         this.yieldCurveGenerator = d3.line()

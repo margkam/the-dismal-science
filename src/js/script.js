@@ -46,7 +46,7 @@ Promise.all(ripplePromises).then(datasets => {
 //Load datasets and pass to indicatorsChart
 Promise.all([
         d3.csv("src/data/US_recessions.csv"),
-        d3.csv("src/data/US_GDP.csv"),
+        d3.csv("src/data/US_real_GDP.csv"),
         d3.csv("src/data/US_yield_curve.csv"),
         d3.csv("src/data/US_investment.csv"),
         d3.csv("src/data/US_unemployment.csv"),
@@ -81,7 +81,7 @@ Promise.all([
 
         gdp.map(entry => {
             entry.DATE = Date.parse(entry.DATE);
-            entry.GDP = +entry.GDP/1000;
+            entry.GDPC1 = +entry.GDPC1/1000;
         })
         
         yieldCurve.map(entry => {
