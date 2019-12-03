@@ -3,6 +3,7 @@ console.log('Starting vis');
 let ripple = new Ripple();
 let rippleSlider = new TimeSlider('ripple-slider', 1982, 2019, 2007, false);
 let indicatorsChart = new IndicatorsChart();
+let dendrogram = new Dendrogram();
 
 let ripplePromises = [];
 
@@ -42,31 +43,20 @@ Promise.all(ripplePromises).then(datasets => {
     ripple.init(gdpGrowth, unemployment);
 })
 
-var img = document.createElement("img");
-img.width = 600;
-img.height = 600;
-img.src = "src/resources/Trade_Interconnectedness.png";
-
-var src = document.getElementById("placeholder");
-src.appendChild(img);
-
 //Load datasets and pass to indicatorsChart
 Promise.all([
         d3.csv("src/data/US_recessions.csv"),
+        d3.csv("src/data/US_GDP.csv"),
         d3.csv("src/data/US_yield_curve.csv"),
         d3.csv("src/data/US_investment.csv"),
         d3.csv("src/data/US_unemployment.csv"),
     ]).then(datasets => {
         // start each dataset at 1982 where yield curve data begins
-        let recessionsMonthly = datasets[0].slice(748); 
-        let yieldCurve = datasets[1];
-        let investment = datasets[2].slice(140);
-        let unemployment = datasets[3];
-
-        //console.log(investment);
-        //console.log(recessions);
-        //console.log(yieldCurve);
-        //console.log(unemployment);
+        let recessionsMonthly = datasets[0].slice(748);
+        let gdp = datasets[1]; 
+        let yieldCurve = datasets[2];
+        let investment = datasets[3].slice(140);
+        let unemployment = datasets[4];
 
         let recessions = new Array();
         let duration = 0;
@@ -88,6 +78,11 @@ Promise.all([
                 recStart = Date.parse(recessionsMonthly[i].DATE);
             }
         }
+
+        gdp.map(entry => {
+            entry.DATE = Date.parse(entry.DATE);
+            entry.GDP = +entry.GDP/1000;
+        })
         
         yieldCurve.map(entry => {
             entry.DATE = Date.parse(entry.DATE);
@@ -105,6 +100,12 @@ Promise.all([
             entry.UNRATE = +entry.UNRATE;
         })
 
-        indicatorsChart.display(recessions, yieldCurve, investment, unemployment);
+        indicatorsChart.display(recessions, gdp, yieldCurve, investment, unemployment);
     })
+
+    d3.json("src/data/Fta_country_hierarchy.json")
+        .then(tree => dendrogram.display(tree))
+    ;
+
+
 ;

@@ -26,6 +26,15 @@ button.selected {
 #econ-text {
     display: inline-block;
     vertical-align: top;
+    color: gray;
+}
+
+#fun-fact {
+    font-style: italic;
+}
+
+#gdp-curve-svg {
+    opacity: 0.4;
 }
 
 .overlay {
@@ -51,6 +60,11 @@ button.selected {
     fill: white;
     stroke: none;
     opacity: 0.7;
+}
+
+#gdp-curve {
+    fill: transparent;
+    stroke: black;
 }
 
 #indicator-curve {
@@ -119,5 +133,16 @@ button.selected {
   .valid {
     border:2px solid green;
   }
+
+  #dendrogram-node-label {
+      font-size: 8px;
+  }
+
+  #year-list text {
+      font-size: 10px;
+      cursor: pointer;
+  }
+
+
 
 
