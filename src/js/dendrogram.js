@@ -5,8 +5,20 @@ class Dendrogram {
     constructor() {
         this.config = {
             listWidth: 150,
-            width: 1000,
+            width: 900,
+            startYear: 1948,
+            endYear: 2018,
         }
+
+        this.cumulative = false;
+        this.year = 2018;
+
+        d3.select('#cumulative-checkbox')
+            .on('click', (d, i) => {
+                this.cumulative = !this.cumulative;
+                this.updateYear(this.year);
+            })
+        ;
 
         this.listSvg = d3.select('#trade-chart')
             .append('svg')
@@ -25,7 +37,6 @@ class Dendrogram {
         this.yearList = this.listSvg.append('g')
             .attr('id', 'year-list')
         ;
-        
     }
 
     display(data) {
@@ -70,25 +81,11 @@ class Dendrogram {
             .angle(d => d.x)
         ;
        
-
-        //outgoing = [myselfnode, linkdestinationnodej, treatyname, yearsigned]
-        let linkData = root.leaves().flatMap(leaf => leaf.outgoing);
         this.linksByYear = {};
-    
-        for (const o of linkData) {
-            let year = o[3];
-            let d = line(o[0].path(o[1]));
-            if (!(year in this.linksByYear)) {
-                this.linksByYear[year] = [];
-            }
-            if (year != "") {
-                this.linksByYear[year].push([o[2], d]);
-            }
-        }
-
         let y = 10;
         let dy = this.config.width / 75;
-        for (let i = 1948; i < 2019; ++i) {
+        for (let i = this.config.startYear; i <= this.config.endYear; ++i) {
+            this.linksByYear[i] = [];
             let t = this.yearList.append('text')
                 .attr('x', 20)
                 .attr('y', y)
@@ -100,6 +97,17 @@ class Dendrogram {
             y += dy;
         }
 
+        //note that outgoing = [myselfnode, linkdestinationnodej, treatyname, yearsigned]
+        let linkData = root.leaves().flatMap(leaf => leaf.outgoing);
+    
+        for (const o of linkData) {
+            let year = o[3];
+            let d = line(o[0].path(o[1]));
+            if (year != "") {
+                this.linksByYear[year].push([o[2], d]);
+            }
+        }
+
         let colornone = "#ccc";
         this.dendroSvg.append("g")
             .attr('id', 'dendro-links')
@@ -107,26 +115,37 @@ class Dendrogram {
             .attr("fill", "none")
         ;
 
+        this.cumulativeHelper = {};
         this.updateYear(2018);
     }
 
     updateYear(year) {
-        d3.select('#dendro-links')
-            .selectAll('path')
-            .remove()
-        ;
-
-        if (year in this.linksByYear) {
-            d3.select('#dendro-links')
-                .selectAll("path")
-                .data(this.linksByYear[year])
-                .join('path')
-                .style("mix-blend-mode", "multiply")
-                .attr('d', ([name, path]) => path)
-                //.each(function(d) { d.path = this; })
-            ;
+        let data = this.linksByYear[year];
+        if (this.cumulative == true) {
+            for (let i = year - 1; i >= this.config.startYear; --i) {
+                if (i in this.cumulativeHelper) {
+                    data = data.concat(this.cumulativeHelper[i]);
+                    break;
+                } else {
+                    data = data.concat(this.linksByYear[i]);
+                }
+                
+            }
+            if (!(year in this.cumulativeHelper)) {
+                this.cumulativeHelper[year] = data;
+            }
         }
+
+        d3.select('#dendro-links')
+            .selectAll("path")
+            .data(data)
+            .join('path')
+            .style("mix-blend-mode", "multiply")
+            .attr('d', ([name, path]) => path)
+            //.each(function(d) { d.path = this; })
+        ;
         
+        this.year = year;
     }
 
 
