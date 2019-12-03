@@ -149,6 +149,11 @@ button.selected {
       cursor: pointer;
   }
 
+  .scale-box {
+    stroke-width: 1;
+    stroke: black;
+  }
+
   /* input styling based on 
    * https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
   */

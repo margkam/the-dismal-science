@@ -9,7 +9,7 @@ class Ripple {
                 left: 10,
                 right: 10,
                 bottom: 10
-            }
+            },
         }
         this.projection = d3.geoRobinson()
             .scale(this.config.scale)
@@ -26,16 +26,75 @@ class Ripple {
         this.negativeColorScale = d3.scaleLinear().domain([-5.0, 0.0])
             .range(['red', 'white']);
 
-        this.unemploymentColorScale = d3.scaleLinear().domain([0.0, 20.0])
+        this.unemploymentColorScale = d3.scaleLinear().domain([0.0, 22.0])
             .range(['white', 'darkblue']);
 
         this.selectedPosColorScale = this.posGdpScale;
+
+        this.scaleConfig = {
+            scaleSize: 30,
+            yoffset: 70
+        }
+    }
+
+    addScale(scaleData) {
+        d3.selectAll('.scale-box').remove();
+        d3.selectAll('.scale-label').remove();
+
+        console.log('adding scale ', scaleData);
+        d3.select('#ripple-chart')
+            .select('svg')
+            .selectAll('.scale-box')
+            .data(scaleData)
+            .enter()
+            .append('rect')
+            .attr('class', 'scale-box')
+            .attr('height', this.scaleConfig.scaleSize)
+            .attr('width', this.scaleConfig.scaleSize)
+            .attr('x', 10)
+            .attr('y', (d, i) => (i + 1) * this.scaleConfig.scaleSize + 
+              this.scaleConfig.yoffset)
+            .style('fill', d => this.getColor(d.value))
+            ;
+
+        d3.select('#ripple-chart')
+            .select('svg')
+            .selectAll('.scale-label')
+            .data(scaleData)
+            .enter()
+            .append('g')
+            .attr("transform", (d,i) => 
+                `translate(45,${(i + 1) * this.scaleConfig.scaleSize 
+                + (this.scaleConfig.scaleSize / 2) 
+                + this.scaleConfig.yoffset})`)
+            .append('text')
+            .text(d => d.text)
+            .attr('class', 'scale-label')
+            ;
     }
 
     // initialize the vis, passing in the data that will be used in different modes
     init(gdpGrowthData, unemploymentData) {
         gdpGrowthData.isMonthly = false;
         unemploymentData.isMonthly = true;
+
+        let gdpScaleData = [];
+        for(let i = -6; i <= 10; i += 2) {
+            gdpScaleData.push({
+                value: i,
+                text: `${i}%`
+            })
+        }
+        gdpGrowthData.scaleData = gdpScaleData;
+
+        let unemploymentScaleData = []
+        for(let i = 0; i < 30; i += 5) {
+            unemploymentScaleData.push({
+                value: i,
+                text: `${i}%`
+            })
+        }
+        unemploymentData.scaleData = unemploymentScaleData;
 
         // keep a reference of the data sets
         this.gdpGrowthData = gdpGrowthData;
@@ -71,39 +130,6 @@ class Ripple {
                     ;
                 ripple.updateMap();
             })
-            ;
-
-        let scaleData = [];
-        for(let i = -6; i < 11; i += 2) {
-            scaleData.push({
-                value: i,
-                text: `${i}%`
-            })
-        }
-
-        d3.select('#ripple-chart')
-            .select('svg')
-            .selectAll('.scale-box')
-            .data(scaleData)
-            .enter()
-            .append('rect')
-            .attr('class', 'scale-box')
-            .attr('height', 30)
-            .attr('width', 30)
-            .attr('x', 10)
-            .attr('y', (d, i) => (i + 1) * 30)
-            .style('fill', d => this.getColor(d.value))
-
-        d3.select('#ripple-chart')
-            .select('svg')
-            .selectAll('.scale-label')
-            .data(scaleData)
-            .enter()
-            .append('g')
-            .attr("transform", (d,i) => `translate(40,${(i + 1) * 30 + 15})`)
-            .append('text')
-            .text(d => d.text)
-            .attr('class', 'scale-label')
             ;
 
         ripple.updateMap();
@@ -167,6 +193,9 @@ class Ripple {
 
     // color the map according to the {year} and {quarter} within the dataset {data}
     updateMap() {
+        console.log('About to add scale');
+        this.addScale(this.selectedData.scaleData);
+
         let map = d3.select("#map");
 
         map.selectAll(".countries")

@@ -174,6 +174,8 @@ class TimeSlider {
             .attr('class', 'tick')
             .attr('value', (d) => { return d; })
             .attr('label', (d) => { return d + ' '; })
+            // .style('writing-mode', 'vertical-lr')
+            // .style('text-orientation', 'mixed')
             ;
 
         // add buttons to step forward and back through the vis
