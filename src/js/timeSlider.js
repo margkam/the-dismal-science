@@ -2,6 +2,20 @@ class TimeSlider {
     constructor(attachId, minYear, maxYear, selectedYear, yearsOnly) {
         this.subscribers = [];
         this.attachId = attachId;
+
+        this.config = {
+            width: 1200,
+            height: 200,
+            padding: {
+                left: 10,
+                right: 10
+            },
+            circle: {
+                radius: 10,
+                color: 'grey'
+            }
+        }
+
         this.yearRange = {
             min: minYear,
             max: maxYear
@@ -116,7 +130,6 @@ class TimeSlider {
     init() {
         let yearRange = d3.range(this.yearRange.min, this.yearRange.max);
 
-
         let sliderTime = d3.select(`#${this.attachId}`)
             .select('.year-selector')
             .append('input')
@@ -215,7 +228,7 @@ class TimeSlider {
             ;
 
         let playButton = d3.select(`#${this.attachId}`)
-                .select('.play-stop-buttons')
+            .select('.play-stop-buttons')
             .append('button')
             .text('Play')
             .on('click', () => {
@@ -232,7 +245,7 @@ class TimeSlider {
             })
             ;
 
-            let jumpToInput = d3.select(`#${this.attachId}`)
+        let jumpToInput = d3.select(`#${this.attachId}`)
             .select('.play-stop-buttons')
             .append('text')
             .text('Jump To Time - ')
