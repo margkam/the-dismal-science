@@ -136,6 +136,12 @@ button.selected {
 
   #dendrogram-node-label {
       font-size: 8px;
+      cursor: pointer;
+  }
+
+  #dendrogram-node-label .selected {
+      fill: red;
+      font-weight: bold;
   }
 
   #year-list text {

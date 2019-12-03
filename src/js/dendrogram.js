@@ -64,7 +64,18 @@ class Dendrogram {
             .attr("text-anchor", d => d.x < Math.PI ? "start" : "end")
             .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
             .text(d => d.data.name)
-            .each(function(d) { d.text = this; })
+            .each(function(d) { d.text = d.data.name; })
+            .on('click', (d, i) => {
+                let clicked = d3.select(d3.event.target);
+               
+                if (clicked.classed('selected')) {
+                    clicked.classed('selected', false);
+                } else {
+                    clicked.classed('selected', true);
+                }
+
+                this.updateYear(this.year);
+            })
             //.on("mouseover", overed)
             //.on("mouseout", outed)
             //.call(text => text.append("title").text(d => `${id(d)} // for tooltip
@@ -104,7 +115,8 @@ class Dendrogram {
             let year = o[3];
             let d = line(o[0].path(o[1]));
             if (year != "") {
-                this.linksByYear[year].push([o[2], d]);
+                o.push(d);
+                this.linksByYear[year].push(o);
             }
         }
 
@@ -117,6 +129,21 @@ class Dendrogram {
 
         this.cumulativeHelper = {};
         this.updateYear(2018);
+    }
+
+    filterByCountries(outgoing) {
+        let filterCountries = [];
+        d3.select('#dendrogram-node-label')
+            .selectAll('.selected')
+            .each(d => {
+                filterCountries.push(d.text);
+            })
+        ;
+
+        if (filterCountries.length == 0) return true;
+        if (filterCountries.indexOf(outgoing[0].data.name) != -1) return true;
+        if (filterCountries.indexOf(outgoing[1].data.name) != -1) return true;
+        return false;
     }
 
     updateYear(year) {
@@ -136,19 +163,19 @@ class Dendrogram {
             }
         }
 
+        data = data.filter(this.filterByCountries);
+
         d3.select('#dendro-links')
             .selectAll("path")
             .data(data)
             .join('path')
             .style("mix-blend-mode", "multiply")
-            .attr('d', ([name, path]) => path)
+            .attr('d', ([n1, n2, name, year, path]) => path)
             //.each(function(d) { d.path = this; })
         ;
         
         this.year = year;
     }
-
-
 
     bilink(root) {
         const map = new Map(root.leaves().map(d => [d.data.name, d]));
