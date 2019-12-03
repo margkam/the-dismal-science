@@ -167,6 +167,10 @@ class Dendrogram {
     }
 
     updateYear(year) {
+        d3.select('#fta-selected-year')
+            .html('Selected year: ' + year)
+        ;
+        
         let data = this.linksByYear[year];
         if (this.cumulative == true) {
             for (let i = year - 1; i >= this.config.startYear; --i) {
