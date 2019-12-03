@@ -1,11 +1,10 @@
-//Much of this code is from Mike Bostock at https://observablehq.com/@d3/hierarchical-edge-bundling
-//or adapted from his work.
+//Much of this code is adapted from https://observablehq.com/@d3/hierarchical-edge-bundling by Mike Bostock
 
 class Dendrogram {
     constructor() {
         this.config = {
-            listWidth: 150,
-            width: 900,
+            listWidth: 50,
+            width: 1000,
             startYear: 1948,
             endYear: 2018,
         }
@@ -43,7 +42,7 @@ class Dendrogram {
         this.data = data;
 
         let tree = d3.cluster()
-            .size([2 * Math.PI, this.config.width / 2 - 100]) // angle in radians
+            .size([2 * Math.PI, this.config.width / 2 - 120]) // angle in radians
         ;
 
         let root = tree(this.bilink(d3.hierarchy(data)
@@ -51,8 +50,29 @@ class Dendrogram {
                 d3.ascending(a.height, b.height) || d3.ascending(a.data.name, b.data.name)
             )
         )); 
+
+        //add region labels
+        this.dendroSvg.append("g")
+            .attr('id', 'dendrogram-region-label')
+            .selectAll("g")
+            .data(root.children)
+            .join("g")
+            .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${this.config.width/2 - 5},0)`)
+            .append("text")
+            .attr("dy", "0.31em")
+            .attr("x", d => d.x < Math.PI ? 6 : -6)
+            .attr("text-anchor", 'middle')
+            .attr("transform", d => {
+                if ((d.x - Math.PI/2) >= Math.PI || d.x < Math.PI/2) {
+                    return "rotate(90)";
+                } else {
+                    return "rotate(270)";
+                }
+            })
+            .text(d => d.data.name)
+        ;
         
-        const node = this.dendroSvg.append("g") // note that the nodes have no mark, just a label
+        this.dendroSvg.append("g") // note that the nodes have no mark, just a label
             .attr('id', 'dendrogram-node-label')
             .selectAll("g")
             .data(root.leaves())
@@ -128,7 +148,7 @@ class Dendrogram {
         ;
 
         this.cumulativeHelper = {};
-        this.updateYear(2018);
+        this.updateYear(2003);
     }
 
     filterByCountries(outgoing) {
@@ -175,6 +195,10 @@ class Dendrogram {
         ;
         
         this.year = year;
+    }
+
+    update(month, year) {
+        this.updateYear(year);
     }
 
     bilink(root) {
