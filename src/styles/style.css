@@ -19,7 +19,7 @@ button {
 }
 
 button.selected {
-    background-color: black;
+    background-color: #367ebd;
     color: white;
 }
 
@@ -155,6 +155,16 @@ button.selected {
     stroke-width: 1;
     stroke: black;
   }
+
+  .econ-splaing p {
+    display: inline-block;
+    vertical-align: top;
+    color: gray;
+    width: 25%;
+  }
+
+  /* #ripple-chart {
+  }*/
 
   /* input styling based on 
    * https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/

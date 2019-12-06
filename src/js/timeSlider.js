@@ -192,7 +192,7 @@ class TimeSlider {
         let previousYearButton = d3.select(`#${this.attachId}`)
             .select('.step-buttons')
             .append('button')
-            .text('Previous Year')
+            .text('<< Previous Year')
             .on('click', () => {
                 this.previousYear();
             })
@@ -202,12 +202,13 @@ class TimeSlider {
             let previousQuarterButton = d3.select(`#${this.attachId}`)
                 .select('.step-buttons')
                 .append('button')
-                .text('Previous Quarter')
+                .text('< Previous Quarter')
                 .on('click', () => {
                     this.previousQuarter();
                 })
                 ;
 
+                /*
             let previousMonthButton = d3.select(`#${this.attachId}`)
                 .select('.step-buttons')
                 .append('button')
@@ -225,11 +226,12 @@ class TimeSlider {
                     this.nextMonth();
                 })
                 ;
+                */
 
             let nextQuarterButton = d3.select(`#${this.attachId}`)
                 .select('.step-buttons')
                 .append('button')
-                .text('Next Quarter')
+                .text('Next Quarter >')
                 .on('click', () => {
                     this.nextQuarter();
                 })
@@ -239,7 +241,7 @@ class TimeSlider {
         let nextYearButton = d3.select(`#${this.attachId}`)
             .select('.step-buttons')
             .append('button')
-            .text('Next Year')
+            .text('Next Year >>')
             .on('click', () => {
                 this.nextYear();
             })

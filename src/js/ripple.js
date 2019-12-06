@@ -26,8 +26,8 @@ class Ripple {
         this.negativeColorScale = d3.scaleLinear().domain([-5.0, 0.0])
             .range(['red', 'white']);
 
-        this.unemploymentColorScale = d3.scaleLinear().domain([0.0, 22.0])
-            .range(['white', 'darkblue']);
+        this.unemploymentColorScale = d3.scaleLinear().domain([0.0, 15.0])
+            .range(['white', 'darkorange']);
 
         this.selectedPosColorScale = this.posGdpScale;
 
