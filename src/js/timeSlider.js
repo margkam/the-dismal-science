@@ -250,10 +250,19 @@ class TimeSlider {
         let playButton = d3.select(`#${this.attachId}`)
             .select('.play-stop-buttons')
             .append('button')
+            .attr('class', 'play')
             .text('Play')
             .on('click', () => {
                 this.startPlayMode();
             })
+            ;
+
+        playButton.append('svg')
+            .attr('height', 15)
+            .attr('width', 20)
+            .append('path')
+            .attr('d', 'M 8 4 20 10 8 16')
+            .attr('fill', 'green')
             ;
 
         let stopButton = d3.select(`#${this.attachId}`)
@@ -264,6 +273,13 @@ class TimeSlider {
                 this.stopPlayMode();
             })
             ;
+
+        stopButton.append('svg')
+            .attr('height', 15)
+            .attr('width', 20)
+            .append('path')
+            .attr('d', 'M 5 5 5 17 17 17 17 5')
+            .attr('fill', 'rgb(204, 0, 0)')
 
         let jumpToInput = d3.select(`#${this.attachId}`)
             .select('.play-stop-buttons')

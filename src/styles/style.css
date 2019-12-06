@@ -1,3 +1,8 @@
+:root {
+  --blue-trim: #367ebd;
+}
+
+
 body {
     font-family: "Tahoma", Geneva, sans-serif;
 }
@@ -19,7 +24,7 @@ button {
 }
 
 button.selected {
-    background-color: #367ebd;
+    background-color: var(--blue-trim);
     color: white;
 }
 
@@ -184,7 +189,7 @@ button.selected {
     height: 8.4px;
     cursor: pointer;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
+    background: var(--blue-trim);
     border-radius: 1.3px;
     border: 0.2px solid #010101;
   }
@@ -202,7 +207,7 @@ button.selected {
   }
 
   input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #367ebd;
+    background: var(--blue-trim);
   }
 
   input[type=range]::-moz-range-track {
@@ -210,7 +215,7 @@ button.selected {
     height: 8.4px;
     cursor: pointer;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
+    background: var(--blue-trim);
     border-radius: 1.3px;
     border: 0.2px solid #010101;
   }
@@ -236,14 +241,14 @@ button.selected {
   }
 
   input[type=range]::-ms-fill-lower {
-    background: #2a6495;
+    background: var(--blue-trim);
     border: 0.2px solid #010101;
     border-radius: 2.6px;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   }
 
   input[type=range]::-ms-fill-upper {
-    background: #3071a9;
+    background: var(--blue-trim);
     border: 0.2px solid #010101;
     border-radius: 2.6px;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -260,9 +265,9 @@ button.selected {
   }
 
   input[type=range]:focus::-ms-fill-lower {
-    background: #3071a9;
+    background: var(--blue-trim);
   }
 
   input[type=range]:focus::-ms-fill-upper {
-    background: #367ebd;
+    background: var(--blue-trim);
   }
