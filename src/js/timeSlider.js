@@ -107,7 +107,7 @@ class TimeSlider {
             var millisecondsToWait = 1;
             if (this.yearsOnly) {
                 this.nextYear();
-                millisecondsToWait = 1000;
+                millisecondsToWait = 700;
             } else {
                 this.nextMonth();
             }
@@ -137,7 +137,7 @@ class TimeSlider {
 
     // set up the time slider, including buttons
     init() {
-        let yearRange = d3.range(this.yearRange.min, this.yearRange.max);
+        let yearRange = d3.range(this.yearRange.min, this.yearRange.max + 1);
 
         let sliderTime = d3.select(`#${this.attachId}`)
             .select('.year-selector')
@@ -151,7 +151,7 @@ class TimeSlider {
                 return this.yearsOnly ? 1 : 1 / 12;
             })
             .classed('slider', true)
-            .style('width', "83%")
+            .style('width', "83.9%")
             .on('change', (event) => {
                 // determine month and year from slider value
                 let value = document.getElementById(`time-slider-id${this.instanceId}`).value;

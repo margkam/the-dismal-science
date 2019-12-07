@@ -9,8 +9,8 @@ class Dendrogram {
             endYear: 2018,
         }
 
-        this.cumulative = false;
-        this.year = 2018;
+        this.cumulative = true;
+        this.year = 1970;
 
         d3.select('#cumulative-checkbox')
             .on('click', (d, i) => {
@@ -148,7 +148,7 @@ class Dendrogram {
         ;
 
         this.cumulativeHelper = {};
-        this.updateYear(2003);
+        this.updateYear(this.year);
     }
 
     filterByCountries(outgoing) {

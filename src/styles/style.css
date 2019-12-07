@@ -113,7 +113,7 @@ button.selected {
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
-    width: 80%;
+    width: 83%;
   }
   
 .year-selector .tick {
@@ -123,7 +123,7 @@ button.selected {
     text-align: center;
     width: 1px;
     /*background: #D3D3D3;*/
-    transform: rotate(90deg) translateY(-15px);
+    transform: rotate(90deg) translateY(-9px);
     /*color: red;*/
     height: 10px;
     line-height: 40px;
