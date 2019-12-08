@@ -128,7 +128,7 @@ The volume of trade between two countries would be shown using the the weight of
   - Yield Curve (10-year treasury bond vs. Fed rates)
   - Unemployment
 - Ripple Chart(s)
-  - Chart(s) displaying how an economic downturn in a large economy (particularly a global hedgemond) propogates around the world. This chart/these charts should support the following views:
+  - Chart(s) displaying how an economic downturn in a large economy (particularly a global hedgemon) propogates around the world. This chart/these charts should support the following views:
     - GDP Growth
     - Unemployment
 
@@ -202,12 +202,8 @@ Week 4: Dec 1 - 7:
 Week 5: Dec 8 - 14
 * Take finals
 
-## Insights and Mishaps
-_Section for Tales of Adventure while implementing the vis_
-### Sliders: Potentially problematic
-The year slider was suprisingly fraught with pitfalls. 
-
-Design Evolution: 
+# Project
+## Design Evolution: 
 _What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles you learned in the course. Did you deviate from your proposal?_
 
 _First Chart_  
@@ -217,17 +213,23 @@ With this discovery, we pivoted. Instead of focusing on the waverfront idea, we 
 
 We considering switching the world map to be a cartogram, with country size scaled by GDP and colored by GDP Growth. The advantage of this switch would have been that countries with more of an impact on the global economy would have been emphasized in the vis. However, when we explored this option by looking at http://bl.ocks.org/emeeks/d57083a45e60a64fe976, it became apparent that the distortion would create several problems. European countries become unrecognizable as they grow. Given our dataset, Africa would have disappeared entirely. 
 
+We also considering making the map visualization have circles scaled by GDP and colored by GDP Growth. This would have prevented the user from confusing land-area with impact on the world economy. We had several concerns with this technique, though. Europe would have been crowded and could have some occlusion issues, as many European countries have relatively large GDPs and small land areas. Additionally, this technique would make the vis more intimidating for a first-time user.
+
 _Second Chart_
 
 _Third Chart_
 
-Implementation: 
+## Implementation: 
 _Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements._
 
-Evaluation: 
+## Insights and Mishaps
+#### Sliders: Annoyingly Problematic
+The year slider was suprisingly fraught with pitfalls. Slider support varies widely by browser and label support is spotty at best. The effort to use the existing HTML slider element was, in the end, about the same amount of work it would have been to build an svg-based slider from scratch in d3.
+
+## Evaluation: 
 _What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?_
 
-#### Lessons from the Data
+### Lessons from the Data
 We were somewhat surprised to learn that unemployment undergoes much less fluctuation in European countries during a recession than it does in the United States. This is likely because employment law in Europe makes it more difficult for businesses to fire employees, even when profits fall. 
 
 It was also interesting to note in the Indicators Chart that unemployment in the United States has not ticked up to match the yield curve inversion, as it typically has before past recessions. This gives a somewhat mixed view of the current US economy.
@@ -241,7 +243,7 @@ The Visualization is very effective in sparking interest in the data, highlighti
 * The Indicator chart is quite effective in showing the importance of indicators and in giving a basic explanation of what the indicators mean.
 * The Free Trade Chart allows the user a large degree of freedom in exploring free trade agreements. Filtering is key to this exploration. 
 
-#### Further Improvements
+### Further Improvements
 If we had more time, there are several things that would have helped improve our visualization. We could have added a Trade Quantity visualization next to the Free Trade Agreement Visualization. These would have been complementary visualizations, allowing the user to see how a free-trade agreement impacts the quantity of trade between two nations. 
 
 We also could have some small-multiple charts that would appear next to the map when countries are selected. These line charts would give the user a sense of how much fluctuation there is in the GDP Growth for a selected country. It would decrease the cognative load of trying to remember the fluctuations as the vis plays through the available years. 
