@@ -211,35 +211,17 @@ class Ripple {
             })
             .on('mouseover', function (d) {
                 d3.select(this).style('cursor', 'crosshair');
-
-                rippleChart.tooltipCoords.x = d3.mouse(this)[0];
-                rippleChart.tooltipCoords.y = d3.mouse(this)[1];
                 let dataValue =
                     rippleChart.getValue(rippleChart.selectedData, d.id, rippleChart.selectedYear, rippleChart.selectedMonth);
                 if (undefined != dataValue) {
                     let rounded = Math.round(dataValue * 100) / 100.0;
-                    let info = `${rippleChart.getCountryName(rippleChart.selectedData, d.id)} 
-                        ${rounded}%`;
-                    map.append('text')
+                    let countryName = rippleChart.getCountryName(rippleChart.selectedData, d.id);
+                    let info 
+                        = `${countryName}, ${rippleChart.selectedQuarter}-${rippleChart.selectedYear}: ${rounded}%`;
+                    d3.select('#map-tooltip')
                         .text(info)
-                        .attr('x', rippleChart.tooltipCoords.x)
-                        .attr('y', rippleChart.tooltipCoords.y)
-                        .attr('class', `map-text-${d.countryId}`)
-                        .style('fill', 'purple')
                         ;
-                }
-            })
-            .on('mousemove', function (d) {
-                let x = d3.mouse(this)[0];
-                let y = d3.mouse(this)[1];
-                d3.selectAll(`.map-text-${d.countryId}`)
-                    .attr('x', x)
-                    .attr('y', y)
-                    ;
-            })
-            .on('mouseout', function (d) {
-                d3.select(this).style('cursor', 'default');
-                d3.selectAll(`.map-text-${d.countryId}`).remove();
+               }
             })
             ;
     }
@@ -274,11 +256,17 @@ class Ripple {
             .style('stroke', 'black')
             ;
 
-        this.tooltip = map.append('g');
-
-        this.tooltipCoords = {
-            x: 100,
-            y: 100
-        }
+        this.tooltip = map.append('g')
+            .append('text')
+            .attr('id', 'map-tooltip')
+            .text('')
+            .attr('x', () => {
+                return (2/5) * this.config.width;
+            })
+            .attr('y', () => {
+                return 1 * (4/5) * this.config.height;
+            })
+            .style('opacity', 0.7)
+            ;
     }
 }
