@@ -270,7 +270,6 @@ Hopefully, the map part of the visualization will spark some interest in economi
 The year slider was suprisingly fraught with pitfalls. Slider support varies widely by browser and label support is spotty at best. The effort to use the existing HTML slider element was, in the end, about the same amount of work it would have been to build an svg-based slider from scratch in d3.
 
 ## Evaluation: 
-_What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?_
 
 ### Lessons from the Data
 We were somewhat surprised to learn that unemployment undergoes much less fluctuation in European countries during a recession than it does in the United States. This is likely because employment law in Europe makes it more difficult for businesses to fire employees, even when profits fall. 
@@ -286,7 +285,14 @@ The Visualization is very effective in sparking interest in the data, highlighti
 * Stepping through the data allows the same map visualization to provide additional depth to data exploration without changing the data encoding.
 * The Indicators chart does a great job in showing the user several historic patterns that provide context for the current situation in the United States.
 * The Indicator chart is quite effective in showing the importance of indicators and in giving a basic explanation of what the indicators mean.
+* The Indicators chart is focused and doesn't use unjustified color.
+* The real GDP section of the Indicators chart seems to be a flop. Out of friends we have shown it to, only one has really liked it and the rest appeared to be confused. This is great feedback for us and we would remove or improve it in future iterations of the project.
 * The Free Trade Chart allows the user a large degree of freedom in exploring free trade agreements. Filtering is key to this exploration. 
+* Rendering time gets slow as cumulative data up to more recent years is shown. Even with preprocessing the data to the point of generating the SVG path attribute and storing that string for each FTA, simply displaying all those edges takes a lot of computational effort.
+* Free Trade chart as it stands communicates really well the sheer number of trade agreements. This is excellent for our purposes. It gives no information about what agreements they are or the actualy effect on trade volume, which is a major shortcoming.
+* While we understand the connection between current trade tensions and the current US economic state, we could communicate that conceptual link better to the user. Our title "Current trade tensions matter" alludes to the trade war with China, but it's still a big jump for the user to make.
+* One friend who saw the vis has repeatedly brought it up in conversation since, and is reconsidering his personal financial plan in light of his new understanding of recessions. We consider this a success.
+* People seem to find the vis as a whole interesting and fun to look at.
 
 ### Further Improvements
 If we had more time, there are several things that would have helped improve our visualization. We could have added a Trade Quantity visualization next to the Free Trade Agreement Visualization. These would have been complementary visualizations, allowing the user to see how a free-trade agreement impacts the quantity of trade between two nations. 
@@ -294,3 +300,11 @@ If we had more time, there are several things that would have helped improve our
 We also would love to redundantly encode the continent with hue on the dendrogram to make it easier to see quickly. In addition, we want to show the names of free trade agreements when you hover over it, or in a list on the side.
 
 We also could have some small-multiple charts that would appear next to the map when countries are selected. These line charts would give the user a sense of how much fluctuation there is in the GDP Growth for a selected country. It would decrease the cognative load of trying to remember the fluctuations as the vis plays through the available years. 
+
+We could reign in our use of color. Not all our color use is color-blind safe and not all of it is justified.
+
+We can also position the vis better horizontally so that everything isn't squished up against the left side of the screen.
+
+We still dream of the ripple chart in our proposal. We would love to investigate more granular data sources and perhaps consider other measures of aggregate economic activity to make that possible.
+
+_Thank you for experiencing The Confessions of a Recessed Economy_
