@@ -54,18 +54,20 @@ Datasets currently included:
 
 #### From FRED - Federal Reserve Bank of St. Louis
 - NBER based Recession Indicators for the United States from the Period following the Peak through the Trough (https://fred.stlouisfed.org/series/USREC)
+- Real Gross Domestic Product (https://fred.stlouisfed.org/series/GDPC1)
 - 10-Year Treasury Constant Maturity Minus 3-Month Treasury Constant Maturity (https://fred.stlouisfed.org/series/T10Y3MM)
 - Gross Private Domestic Investment (https://fred.stlouisfed.org/series/GPDI) 
 - Unemployment Rate (https://fred.stlouisfed.org/series/UNRATE)
 
 #### From DESTA - Design of Free Trade Agreements
-- List of treaties in dyadic form (https://www.designoftradeagreements.org/downloads/)
+- List of treaties in dyadic form (https://www.designoftradeagreements.org/downloads/), which we cite under their instructions:  
+Dür, Andreas, Leonardo Baccini and Manfred Elsig. 2014. “The Design of International Trade Agreements: Introducing a New Database”. Review of International Organizations, 9(3): 353-375.
 
 ### Data Processing
 
-All of these datasets were downloadable in CSV format. For most of them, we used D3's CSV parser, and minimal additional data processing was needed. The US recession dataset contained a flag for every month indicating if it was a recession or not; this was converted into a much smallr dataset in which each item is a recession (with start and end dates) intead of a month.
+All of these datasets were downloadable in CSV format. For most of them, we used D3's CSV parser, and minimal additional data processing was needed. The US recession dataset contained a flag for every month indicating if it was a recession or not; this was converted into a much smaller dataset in which each item is a recession (with start and end dates) intead of a month.
 
-We have also included a dyadic dataset of bi- and multilateral free trade agreements for our optional dendrogram. The src/resources directory contains a python script we wrote to parse the CSV and construct a JSON hierarchy of regions and countries of the world using the identifiers in this dataset. This tree structure in JSON format will enable us to use hierarchical edge bundling with a radial dendrogram. The JSON file we generated is in the src/data directory. 
+We have also included a dyadic dataset of bi- and multilateral free trade agreements for our optional dendrogram. The src/resources directory contains python scripts we wrote to parse the CSV and construct a JSON hierarchy of regions and countries of the world using the identifiers in this dataset. The free trade agreements signed are then included under one of each pair of countries that signed it. This tree structure in JSON format enabled us to use hierarchical edge bundling with a radial dendrogram. The JSON file we generated is in the src/data directory. 
 
 ## Exploratory Data Analysis: 
 
@@ -74,7 +76,7 @@ Initially we tolerated some online vis provided by our data sources to understan
 ## Design Evolution
 
 ### Overview
-Since we are creating a dashboard-style vis, there are multiple visualizations put together to communicate a complex message. This overview shows how the multiple views will fit together. Note that the year slider controls the year for all of the charts. This allows the user to see how different economic values are related to each other and how they evolve in tandem over time. 
+Since we are creating a dashboard-style vis, there are multiple visualizations put together to communicate a complex message in an understandable format. This overview shows how the multiple views will fit together. Note that the year slider controls the year for all of the charts. This allows the user to see how different economic values are related to each other and how they evolve in tandem over time. 
 
 ![Overview Vis](./docs/proposal_docs/sketches/overview.jpeg)
 
@@ -154,7 +156,7 @@ The volume of trade between two countries would be shown using the the weight of
     - Alternately, choose a base year in a single map and show data relative to that year
 
 
-## Updated Project Schedule
+## Intended Project Schedule
 
 Week 0: Nov 3 - 9:
 * Meet with Dr. Edwards to discuss proposal 
@@ -207,11 +209,17 @@ The year slider was suprisingly fraught with pitfalls.
 
 Design Evolution: 
 _What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles you learned in the course. Did you deviate from your proposal?_
+
+_First Chart_  
 Our original intention was to provide a 'ripple' visualization, in which the user could see a waverfront of negative GDP growth spread out from a point of origin to countries with connected economies. However, the data were not sufficiently granular for this type of visualization. The economies of the United States and Europe are so inter-connected that economic conditions spread in less than a quarter. With data sampled once at the beginning of each quarter, it was not possible to create a wavefront. 
 
 With this discovery, we pivoted. Instead of focusing on the waverfront idea, we gave the user increased control over the map visualization, turning it into a debugger of sorts. The point of the debugger is for the user to explore the data, looking for interesting moments in history. 
 
 We considering switching the world map to be a cartogram, with country size scaled by GDP and colored by GDP Growth. The advantage of this switch would have been that countries with more of an impact on the global economy would have been emphasized in the vis. However, when we explored this option by looking at http://bl.ocks.org/emeeks/d57083a45e60a64fe976, it became apparent that the distortion would create several problems. European countries become unrecognizable as they grow. Given our dataset, Africa would have disappeared entirely. 
+
+_Second Chart_
+
+_Third Chart_
 
 Implementation: 
 _Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements._
