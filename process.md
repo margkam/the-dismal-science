@@ -231,6 +231,17 @@ We deviated from our proposal by adding a static line chart at the top showing r
 An interactive tooltip shows the data values on hover.
 
 _Third Chart_
+After seeing in the second chart that the yield curve inverted and investment declined recently, the user might wonder why. According to our economic training and reliable sources like the Fed, these economic indicators reflect uncertainty in the business world about the future of trade - uncertainty influenced by the trade war that President Trump has begun with China.
+
+We wanted to communicate to the user the importance of international cooperation and free trade for promoting economic growth. In leiu of economic diagrams showing deadweight loss and other economic concepts, we chose to visualize the interconnectedness of the world through free trade agreements (FTA's) signed. Our dream is to one day link this chart to a visualization of trade volume over time for selected countries.
+
+FTA's can be bilateral (between 2 countries) or multilateral (between more than 2 countries). In vis terms, our dataset was a hypergraph, with some edges connecting multiple nodes. To represent this hypergraph, we show a link between each pair of nodes connected by a given edge. In the context of free trade, this is sensible because while many countries may sign one trade agreement, they don't do 3- or 4-way trades of goods after signing. Purchase of goods occurs between just two countries at a time.
+
+We used a dendrogram for visual interest, with hierarchical edge bundling to reduce clutter and facilitate discernment between trade amongst and trade within large geographical regions. Our inspiration and code tutorial was from Mike Bostock at https://observablehq.com/@d3/hierarchical-edge-bundling. We wrote a couple of python scripts to parse the raw dataset and create the hierarchy we needed.
+
+Clicking on countries filters the data by those countries. Data shown can be cumulative or for just the selected year.
+
+The quantity of edges in the dendrogram surprised us. Initially there were over 17000. The occlusion problem and slow rendering time motivated us to implement the filtering we described, by year and by country. 
 
 ## Implementation: 
 _Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements._
@@ -247,6 +258,8 @@ We were somewhat surprised to learn that unemployment undergoes much less fluctu
 
 It was also interesting to note in the Indicators Chart that unemployment in the United States has not ticked up to match the yield curve inversion, as it typically has before past recessions. This gives a somewhat mixed view of the current US economy.
 
+We were thrilled to see just how many free trade agreements there are in the world! And disappointed and shocked to see how few the United States has. At first we thought it was a mistake in the data or a bug in the vis. However, further research showed that the data and vis are accurate. The US government proudly announces that it has 14 FTA's with 20 countries (https://www.export.gov/article?id=U-S-Free-Trade-Agreements--Introduction).
+
 ### How Well the Visualization Works
 The Visualization is very effective in sparking interest in the data, highlighting some concerning economics trends in the United States, and in allowing some exploration of free-trade data. In particular, the following parts of the visualization were very effective:
 * The pop-out effect of countries experiencing negative GDP Growth rate was very effective in drawing the user's attention to interesting parts of the GDP Growth data
@@ -258,5 +271,7 @@ The Visualization is very effective in sparking interest in the data, highlighti
 
 ### Further Improvements
 If we had more time, there are several things that would have helped improve our visualization. We could have added a Trade Quantity visualization next to the Free Trade Agreement Visualization. These would have been complementary visualizations, allowing the user to see how a free-trade agreement impacts the quantity of trade between two nations. 
+
+We also would love to redundantly encode the continent with hue on the dendrogram to make it easier to see quickly. In addition, we want to show the names of free trade agreements when you hover over it, or in a list on the side.
 
 We also could have some small-multiple charts that would appear next to the map when countries are selected. These line charts would give the user a sense of how much fluctuation there is in the GDP Growth for a selected country. It would decrease the cognative load of trying to remember the fluctuations as the vis plays through the available years. 
