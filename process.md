@@ -224,6 +224,15 @@ We were somewhat surprised to learn that unemployment undergoes much less fluctu
 
 It was also interesting to note in the Indicators Chart that unemployment in the United States has not ticked up to match the yield curve inversion, as it typically has before past recessions. This gives a somewhat mixed view of the current US economy.
 
+### How Well the Visualization Works
+The Visualization is very effective in sparking interest in the data, highlighting some concerning economics trends in the United States, and in allowing some exploration of free-trade data. In particular, the following parts of the visualization were very effective:
+* The pop-out effect of countries experiencing negative GDP Growth rate was very effective in drawing the user's attention to interesting parts of the GDP Growth data
+* The Play and Stop buttons provide a very simple way for a user with no idea on how to interact with the visualization to begin exploring the interesting parts of the data.
+* Stepping through the data allows the same map visualization to provide additional depth to data exploration without changing the data encoding.
+* The Indicators chart does a great job in showing the user several historic patterns that provide context for the current situation in the United States.
+* The Indicator chart is quite effective in showing the importance of indicators and in giving a basic explanation of what the indicators mean.
+* The Free Trade Chart allows the user a large degree of freedom in exploring free trade agreements. Filtering is key to this exploration. 
+
 #### Further Improvements
 If we had more time, there are several things that would have helped improve our visualization. We could have added a Trade Quantity visualization next to the Free Trade Agreement Visualization. These would have been complementary visualizations, allowing the user to see how a free-trade agreement impacts the quantity of trade between two nations. 
 
