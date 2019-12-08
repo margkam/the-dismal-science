@@ -18,7 +18,7 @@ margaret.watkins@aggiemail.usu.edu
 A01983706
 
 
-## Background and Motivation
+## Overview and Motivation
 
 For the average person, the economy is hard to understand. Economists are trusted little and liked less. The economy is a powerful force in our nation, community, and daily life. Despite its importance, politicians and voters alike have very limited understanding of economic principles and the effect of economic policy and mishaps. We believe an enhanced understanding of economic indicators and history will inform the general population and assuage fear of the unknown. 
 
@@ -26,16 +26,24 @@ While data visualization will not prevent the next recession, it can shed light 
 
 We believe this information can and should be presented in ways that are easy to understand, even for those who are not trained economists. As dual majors in Economics and Computer Science, we know from experience that learning about the economy can lead us to care more and fear less. Our economics coursework has taught us how to understand the data we will visualize in this project and has inspired us to share the understanding we ourselves have gained.
 
-## Project Objectives
+## Related Work
+Our economics coursework has changed our perspective on domestic economic policy. Feeling enlightened ourselves, we wanted to share some of this insight with others who haven't had the chance to endure the classes we have.
+
+The vis itself were inspired in part by a desire to improve the FRED's graphs and make them accessible, and by this awesome hierarchical edge bundling https://observablehq.com/@d3/hierarchical-edge-bundling.
+
+## Project Objectives: Questions
 
 Primary questions we would like to answer with our visualization:
 
-- How quickly and strongly are countries around the globe affected when the one country enters a recession?  
-- How long does it take for these countries to recover relative to the country that triggered the recession?
+- How quickly and strongly are countries around the globe affected when the one country enters a recession? (difficult to answer with our data)
+- How long does it take for these countries to recover relative to the country that triggered the recession? (also difficult to answer)
+- What stories can we find by looking at world economic data? (A question we developed)
 - What economic indicators are correlated with recessions in the United States?
 - What economic indicators show that we may be headed into a recession?
 - Where are these indicators at right now?
 - When have recessions happened in the past and how severe were they?
+- Why is the trade war with China hurting the economy?
+- How much do nations of the world care about free trade? (A question that evolved as we implemented our optional dendrogram)
 
 Benefits:
 - Develop a general understanding of how recessions happen based on economic indicators
@@ -43,6 +51,7 @@ Benefits:
 - Show the current state of the United States economy
 - Understand the links between national and global economies
 - Build compassion for other countries who have recessions triggered by the United States
+- Understand why President Trump's international relations are causing economic strain
 
 ## Data
 
