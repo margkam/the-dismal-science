@@ -205,10 +205,12 @@ _Section for Tales of Adventure while implementing the vis_
 ### Sliders: Potentially problematic
 The year slider was suprisingly fraught with pitfalls. 
 
-TODO:
-
 Design Evolution: 
 _What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles you learned in the course. Did you deviate from your proposal?_
+Our original intention was to provide a 'ripple' visualization, in which the user could see a waverfront of negative GDP growth spread out from a point of origin to countries with connected economies. However, the data were not sufficiently granular for this type of visualization. The economies of the United States and Europe are so inter-connected that economic conditions spread in less than a quarter. With data sampled once at the beginning of each quarter, it was not possible to create a wavefront. 
+
+With this discovery, we pivoted. Instead of focusing on the waverfront idea, we gave the user increased control over the map visualization, turning it into a debugger of sorts. The point of the debugger is for the user to explore the data, looking for interesting moments in history. 
+
 We considering switching the world map to be a cartogram, with country size scaled by GDP and colored by GDP Growth. The advantage of this switch would have been that countries with more of an impact on the global economy would have been emphasized in the vis. However, when we explored this option by looking at http://bl.ocks.org/emeeks/d57083a45e60a64fe976, it became apparent that the distortion would create several problems. European countries become unrecognizable as they grow. Given our dataset, Africa would have disappeared entirely. 
 
 Implementation: 
