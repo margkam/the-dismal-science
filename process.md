@@ -214,7 +214,14 @@ We also considering making the map visualization have circles scaled by GDP and 
 ## Implementation: 
 _Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements._
 
-## Insights and Mishaps
+### Intent and Functionality 
+When the user first navigates to the visualization, she is presented with the map visualization set to a date in the early 2000s. This gives the user some context for what she is looking at: the vis already is showing a view of the data, the scale, and the navigation buttons. The Play button is the first element after the vis. This was done in the hope that if a user doesn't know what to do, she will click the first available button and watch the vis scroll through the last decade of data. This gives a general sense of how the vis is to be used and will highlight some interesting sections of recent history. 
+
+After the user has played through part of the data, she can then use either the slider or the jump-to input box to go to a moment she wants to explore. From there, she can step through the data, quarter by quarter or year by year, to explore the details of what is happening. Unlike most debuggers, this particular vis allows the user to step backwards, decreasing the amount of memory it takes to keep track of what is going on. 
+
+Hopefully, the map part of the visualization will spark some interest in economic stories present in the data. The second part of the visualization 
+
+### Mishaps
 #### Sliders: Annoyingly Problematic
 The year slider was suprisingly fraught with pitfalls. Slider support varies widely by browser and label support is spotty at best. The effort to use the existing HTML slider element was, in the end, about the same amount of work it would have been to build an svg-based slider from scratch in d3.
 
