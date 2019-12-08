@@ -216,7 +216,6 @@ Week 5: Dec 8 - 14
 
 # Project
 ## Design Evolution: 
-_What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles you learned in the course. Did you deviate from your proposal?_
 
 _First Chart_  
 Our original intention was to provide a 'ripple' visualization, in which the user could see a waverfront of negative GDP growth spread out from a point of origin to countries with connected economies. However, the data were not sufficiently granular for this type of visualization. The economies of the United States and Europe are so inter-connected that economic conditions spread in less than a quarter. With data sampled once at the beginning of each quarter, it was not possible to create a wavefront. 
@@ -256,14 +255,13 @@ Clicking on countries filters the data by those countries. Data shown can be cum
 The quantity of edges in the dendrogram surprised us. Initially there were over 17000. The occlusion problem and slow rendering time motivated us to implement the filtering we described, by year and by country. 
 
 ## Implementation: 
-_Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements._
 
 ### Intent and Functionality 
 When the user first navigates to the visualization, she is presented with the map visualization set to a date in the early 2000s. This gives the user some context for what she is looking at: the vis already is showing a view of the data, the scale, and the navigation buttons. The Play button is the first element after the vis. This was done in the hope that if a user doesn't know what to do, she will click the first available button and watch the vis scroll through the last decade of data. This gives a general sense of how the vis is to be used and will highlight some interesting sections of recent history. 
 
 After the user has played through part of the data, she can then use either the slider or the jump-to input box to go to a moment she wants to explore. From there, she can step through the data, quarter by quarter or year by year, to explore the details of what is happening. Unlike most debuggers, this particular vis allows the user to step backwards, decreasing the amount of memory it takes to keep track of what is going on. 
 
-Hopefully, the map part of the visualization will spark some interest in economic stories present in the data. The second part of the visualization 
+Hopefully, the map part of the visualization will spark some interest in economic stories present in the data. The second part of the visualization focuses on the current state of the US economy and the third chart answers questions about the reasons for economic expansion and current tensions. This is described in more detail in the previous section of the Process Book.
 
 ### Mishaps
 #### Sliders: Annoyingly Problematic
