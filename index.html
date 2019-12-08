@@ -17,7 +17,47 @@
 
   <h1>Confessions of a Recessed Economy</h1>
 
-  <h2>The World Economy: <span class="h2-tagline">Debugging the Spread of Recessions</span></h2>
+  <h3>Final Project - Data Visualization - CS 5890 - Fall 2019</h3>
+  <h4>Steven Scott - A01535109, Margaret Watkins - A01983706</h4>
+
+  <h2>Project Motivation, Data, and Results:</h2>
+  <p>What impacts recessions? When do they happen? What does it all mean?</p>
+  <p>Our hope is that YOU can discover answers for yourself without having to take all the economics classes that we did.</p>
+  <p>Please enjoy the three visualizations below.</p>
+
+  <a href="#world-economy"><button>Jump to World Economic Growth</button></a>
+  <a href="#recession-indicators"><button>Jump to US Recession Indicators</button></a>
+  <a href="#free-trade"><button>Jump to Free Trade Agreements Signed</button></a>
+
+  <div id="embedded-screencast">
+      <h4>Watch an intro to the visualizations</h4>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/W_nQizR-bhI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  
+  <div id="link-to-data">
+    <h4>Check out the datasets</h4>
+    <ul>
+      <li><a href="src/data/world.json">World map</a></li>
+      <li><a href="src/data/Quarterly_real_GDP_growth.csv">Real GDP growth (world)</a></li>
+      <li><a href="src/data/Harmonised_unemployment_rate.csv">Unemployment rate (world)</a></li>
+      <li><a href="src/data/US_recessions.csv">Recessions (US)</a></li>
+      <li><a href="src/data/US_real_GDP.csv">Real GDP (US)</a></li>
+      <li><a href="src/data/US_yield_curve.csv">Yield curve (US)</a></li>
+      <li><a href="src/data/US_investment.csv">Investment (US)</a></li>
+      <li><a href="src/data/US_unemployment.csv">Unemployment rate (US)</a></li>
+      <li><a href="src/data/Fta_country_hierarchy.json">Free trade agreements (world, derived hierarchy)</a></li>
+      <li><a href="src/data/List_of_treaties_dyadic.csv">Free trade agreements (world, raw dataset)</a></li>
+    </ul>
+  </div>
+
+  <div id="link-to-process">
+    <h4>Please see the <a href="process.md">Process Book</a> for data sources, our process description, and more information</h4>
+  </div> 
+
+  <hr/>
+
+  <a name="world-economy"></a>
+  <h2>Stories in the World Economy: <span class="h2-tagline">Debugging the Spread of Recessions</span></h2>
   <div id="ripple-chart" class="chart">
     <div id="ripple-buttons">
       <button id='ripple-gdp' class="selected">GDP Growth Rate</button>
@@ -41,7 +81,7 @@
   </div>
 
   <hr/>
-
+  <a name="recession-indicators"></a>
   <div id="indicators-chart" class="chart">
     <h2>United States Economic Indicators: <span class="h2-tagline">How soon is the next recession?</span></h2>
     <div id="indicators-buttons"></div>
@@ -49,8 +89,9 @@
 
   <hr/>
 
+  <a name="free-trade"></a>
   <div id="trade-chart" class="chart">
-    <h2 id="fta-header">Free Trade Agreements Signed: <span class="h2-tagline">Trade tensions matter</span></h2>
+    <h2 id="fta-header">Free Trade Agreements Signed: <span class="h2-tagline">Current trade tensions matter</span></h2>
     <input type="checkbox" id="cumulative-checkbox">Show cumulative data, 1948 to selected year<br>
   </div>
 
