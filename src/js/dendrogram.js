@@ -18,24 +18,12 @@ class Dendrogram {
                 this.updateYear(this.year);
             })
         ;
-
-        /*this.listSvg = d3.select('#trade-chart')
-            .append('svg')
-            .attr('width', this.config.listWidth)
-            .attr('height', this.config.width)
-        ;*/
-        
         this.dendroSvg = d3.select('#trade-chart')
             .append('svg')
             .attr('width', this.config.width)
             .attr('height', this.config.width)
             .attr("viewBox", [-this.config.width / 2, -this.config.width / 2, this.config.width, this.config.width])
         ;
-
-        
-        /*this.yearList = this.listSvg.append('g')
-            .attr('id', 'year-list')
-        ;*/
     }
 
     display(data) {
@@ -50,6 +38,12 @@ class Dendrogram {
                 d3.ascending(a.height, b.height) || d3.ascending(a.data.name, b.data.name)
             )
         )); 
+
+        this.dendroSvg.append('text')
+            .attr('id', 'fta-selected-year')
+            .attr('x', 150)
+            .attr('y', -this.config.width / 2 + 50)
+        ;
 
         //add region labels
         this.dendroSvg.append("g")
@@ -113,19 +107,8 @@ class Dendrogram {
         ;
        
         this.linksByYear = {};
-        //let y = 10;
-        //let dy = this.config.width / 75;
         for (let i = this.config.startYear; i <= this.config.endYear; ++i) {
             this.linksByYear[i] = [];
-            /*let t = this.yearList.append('text')
-                .attr('x', 20)
-                .attr('y', y)
-                .html(i)
-                .on('click', (d, z) => {
-                    this.updateYear(i);
-                })
-            ;
-            y += dy;*/
         }
 
         //note that outgoing = [myselfnode, linkdestinationnodej, treatyname, yearsigned]
