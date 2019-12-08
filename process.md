@@ -1,4 +1,4 @@
-# Proposal
+# Process Book
 
 ## Basic Info
 
@@ -7,6 +7,9 @@ Confessions of a Recessed Economy
 
 _Repository:_  
 https://github.com/marwtki/the-dismal-science
+
+_Team name:_  
+The Dismal Science
 
 _Team members:_  
 Steven Scott  
