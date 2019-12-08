@@ -168,8 +168,13 @@ button.selected {
     width: 25%;
   }
 
-  /* #ripple-chart {
-  }*/
+  .year-label {
+    text-align: center;
+  }
+
+  .year-label-text {
+    display: inline-block;
+  }
 
   /* input styling based on 
    * https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/

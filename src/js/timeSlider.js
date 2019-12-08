@@ -139,6 +139,23 @@ class TimeSlider {
     init() {
         let yearRange = d3.range(this.yearRange.min, this.yearRange.max + 1);
 
+        let yearLabelConfig = {
+            width: this.config.width,
+            height: 25
+        }
+
+        let yearLabel = d3.select(`#${this.attachId}`)
+            .select('.year-selector')
+            .append('svg')
+            .attr('height', yearLabelConfig.height)
+            .attr('width', yearLabelConfig.width)
+            .append('text')
+            .text('Year')
+            .attr('transform',
+                  `translate(${(yearLabelConfig.width/2)} ,${(yearLabelConfig.height - 10)})`)
+            .style("text-anchor", "middle")
+            ;
+
         let sliderTime = d3.select(`#${this.attachId}`)
             .select('.year-selector')
             .append('input')
@@ -181,6 +198,7 @@ class TimeSlider {
             // .style('writing-mode', 'vertical-lr')
             // .style('text-orientation', 'mixed')
             ;
+
 
         let tickText = d3.select(`#${this.attachId}`)
             .select('option')
