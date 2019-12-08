@@ -218,3 +218,13 @@ _Describe the intent and functionality of the interactive visualizations you imp
 
 Evaluation: 
 _What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?_
+
+#### Lessons from the Data
+We were somewhat surprised to learn that unemployment undergoes much less fluctuation in European countries during a recession than it does in the United States. This is likely because employment law in Europe makes it more difficult for businesses to fire employees, even when profits fall. 
+
+It was also interesting to note in the Indicators Chart that unemployment in the United States has not ticked up to match the yield curve inversion, as it typically has before past recessions. This gives a somewhat mixed view of the current US economy.
+
+#### Further Improvements
+If we had more time, there are several things that would have helped improve our visualization. We could have added a Trade Quantity visualization next to the Free Trade Agreement Visualization. These would have been complementary visualizations, allowing the user to see how a free-trade agreement impacts the quantity of trade between two nations. 
+
+We also could have some small-multiple charts that would appear next to the map when countries are selected. These line charts would give the user a sense of how much fluctuation there is in the GDP Growth for a selected country. It would decrease the cognative load of trying to remember the fluctuations as the vis plays through the available years. 
