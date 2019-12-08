@@ -216,6 +216,19 @@ We considering switching the world map to be a cartogram, with country size scal
 We also considering making the map visualization have circles scaled by GDP and colored by GDP Growth. This would have prevented the user from confusing land-area with impact on the world economy. We had several concerns with this technique, though. Europe would have been crowded and could have some occlusion issues, as many European countries have relatively large GDPs and small land areas. Additionally, this technique would make the vis more intimidating for a first-time user.
 
 _Second Chart_
+We succesfully implemented the chart in our proposal plus some extra features. We started with the basic line charts. When scaling the line charts, we used banking to 45 degrees for the unemployment and investment lines to facilitate their interpretation. 
+
+We styled the vertical recession and current-time marks with opaque red for recessions to show that they are important and undesirable, and to draw attention to what happens in the graph around the recessions. The current-time mark is not opaque; it is bold blue to attract attention and suggest to the user that they pay attention to what is happening around the current time. These are the only uses of color in the vis. Our goal with this styling was to help the user answer questions about how close the next recession is, even before they realize that's what their purpose is with these charts.
+
+We considered adding highlighting to the regions of the line chart just before each recession, but decided against it. Our purpose is not to impose a story on the user; the data speaks for itself. We wanted to show the data, the whole data, and nothing but the data.
+
+We added basic descriptions of the economic terms, but again, the graph is designed to allow the user to draw conclusions about the proximity of the next recession even without this economic context.
+
+We considered animated transitions between the 3 line charts, but opted for jump cuts to minimize distraction. We didn't need animation to maintain context, as the year axis and the recession marks stayed the same.
+
+We deviated from our proposal by adding a static line chart at the top showing real GDP. We felt this would help provide context; it is the only measure of the size of the economy that we visualize anywhere in our project. Elsewhere, we focus on rates of growth. We kept this chart small and opaque so that it can be used for reference, but so the user looks first to the brighter and larger chart underneath.
+
+An interactive tooltip shows the data values on hover.
 
 _Third Chart_
 
