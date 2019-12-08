@@ -41,7 +41,6 @@ class Ripple {
         d3.selectAll('.scale-box').remove();
         d3.selectAll('.scale-label').remove();
 
-        console.log('adding scale ', scaleData);
         d3.select('#ripple-chart')
             .select('svg')
             .selectAll('.scale-box')
@@ -147,11 +146,6 @@ class Ripple {
         this.selectedMonth = month;
         this.selectedYear = year;
         this.selectedQuarter = monthToQuarter(month);
-        console.log('Ripple chart updating with data ', this.selectedData,
-            ' year ', this.selectedYear,
-            ' month ', this.selectedMonth,
-            ' quarter ', this.selectedQuarter
-        );
         this.updateMap();
     }
 
@@ -191,19 +185,58 @@ class Ripple {
         return targetValue[0].value;
     }
 
+    getCountryName(data, id) {
+        let countryMatch = data.filter(d => {
+            return d.countryId == id;
+        });
+        if(undefined == countryMatch[0]) {
+            return '';
+        }
+        return countryMatch[0].countryName;
+    }
+
     // color the map according to the {year} and {quarter} within the dataset {data}
     updateMap() {
-        console.log('About to add scale');
         this.addScale(this.selectedData.scaleData);
 
         let map = d3.select("#map");
 
+        let rippleChart = this;
         map.selectAll(".countries")
             .style('fill', (d) => {
                 if (undefined == d) { return 'grey'; }
                 return this.getColor(
                     this.getValue(this.selectedData, d.id, this.selectedYear, this.selectedMonth)
                 );
+            })
+            .on('mouseover', function (d) {
+                rippleChart.tooltipCoords.x = d3.mouse(this)[0];
+                rippleChart.tooltipCoords.y = d3.mouse(this)[1];
+                let dataValue = 
+                    rippleChart.getValue(rippleChart.selectedData, d.id, rippleChart.selectedYear, rippleChart.selectedMonth);
+                if(undefined != dataValue) {
+                    let rounded = Math.round(dataValue * 100) / 100.0;
+                    let info = `${rippleChart.getCountryName(rippleChart.selectedData, d.id)} 
+                        ${rounded}%`;
+                    map.append('text')
+                    .text(info)
+                    .attr('x', rippleChart.tooltipCoords.x)
+                    .attr('y', rippleChart.tooltipCoords.y)
+                    .attr('class', `map-text-${d.countryId}`)
+                    .style('fill', 'purple')
+                    ;
+                }
+            })
+            .on('mousemove', function(d) {
+                let x = d3.mouse(this)[0];
+                let y = d3.mouse(this)[1];
+                d3.selectAll(`.map-text-${d.countryId}`)
+                    .attr('x', x)
+                    .attr('y', y)
+                    ;
+            })
+            .on('mouseout', (d) => {
+                d3.selectAll(`.map-text-${d.countryId}`).remove();
             })
             ;
     }
@@ -217,6 +250,7 @@ class Ripple {
         let path = d3.geoPath().projection(this.projection);
         let geoJSON = topojson.feature(world, world.objects.countries);
         let map = d3.select("#map");
+
 
         map.append('path')
             .datum(d3.geoGraticule())
@@ -236,5 +270,41 @@ class Ripple {
             .style('stroke-width', 0.3)
             .style('stroke', 'black')
             ;
+
+        this.tooltip = map.append('g');
+
+        this.tooltipCoords = {
+            x: 100,
+            y: 100
+        }
+            /*
+
+        this.tooltip.append('text')
+            .attr('id', 'country-tooltip')
+            .attr('class', 'hover-text')
+            .attr('x', this.tooltipCoords.x)
+            .attr('y', this.tooltipCoords.y)
+            .text('')
+        ;
+
+        let rippleChart = this;
+        map.append('rect')
+            .attr('class', 'overlay')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', this.config.width)
+            .attr('height', this.config.height)
+            .on('mouseover', function() {
+                // rippleChart.tooltip.attr('display', null);
+            })
+            .on('mousemove', function() {
+                rippleChart.tooltipCoords.x = d3.mouse(this)[0];
+                rippleChart.tooltipCoords.y = d3.mouse(this)[1];
+            })
+            .on('mouseout', function() {
+                // rippleChart.tooltip.attr('display', 'none');
+            })
+            ;
+            */
     }
 }
